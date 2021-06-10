@@ -19,13 +19,12 @@ class Field extends Component {
 	};
 	getControlled = () => {
 		const { name } = this.props;
-		const { getFieldValue, setFieldsValue, setFieldValue } = this.context;
+		const { getFieldValue, setFieldsValue } = this.context;
 		return {
 			value: getFieldValue(name),
 			onChange: (e) => {
 				const newVal = e.target.value;
 				setFieldsValue({ [name]: newVal });
-				// setFieldValue(name, newVal);
 			},
 		};
 	};

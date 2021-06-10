@@ -1,9 +1,13 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
+
+// 状态管理库
 class FormStore {
 	constructor() {
 		this.store = {};
 
 		this.fieldEntities = [];
+
+		this.callbacks = {};
 	}
 
 	setFieldEntities = (entity) => {
@@ -42,6 +46,42 @@ class FormStore {
 		this.store[name] = newValue;
 	};
 
+	setCallbacks = (newCallbacks) => {
+		this.callbacks = {
+			...this.callbacks,
+			...newCallbacks,
+		};
+	};
+
+	validate = () => {
+		let err = [];
+		this.fieldEntities.forEach((field) => {
+			const { name, rules } = field.props;
+			let rule = rules && rules[0];
+
+			let value = this.getFieldValue(name);
+			if (rule && rule.required && (value === undefined || value === '')) {
+				err.push({
+					[name]: rule.message,
+					value,
+				});
+			}
+		});
+		return err;
+	};
+
+	submit = () => {
+		let err = this.validate();
+		const { onFinishFailed, onFinish } = this.callbacks;
+		console.log('err :>> ', err);
+		if (err.length > 0) {
+			onFinishFailed(err, this.getFieldsValue());
+			console.log('失败 :>> ', '失败');
+		} else {
+			onFinish(this.getFieldsValue());
+		}
+	};
+
 	getForm = () => {
 		return {
 			getFieldValue: this.getFieldValue,
@@ -49,6 +89,8 @@ class FormStore {
 			setFieldsValue: this.setFieldsValue,
 			setFieldValue: this.setFieldValue,
 			setFieldEntities: this.setFieldEntities,
+			setCallbacks: this.setCallbacks,
+			submit: this.submit,
 		};
 	};
 }
@@ -63,5 +105,6 @@ export default function useForm(form) {
 			formRef.current = formStore.getForm();
 		}
 	}
-	return [formRef.current];
+	return [formRef.current]; 
 }
+
