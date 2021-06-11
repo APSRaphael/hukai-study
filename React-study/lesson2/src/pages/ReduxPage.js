@@ -15,7 +15,7 @@ class ReduxPage extends Component {
     store.dispatch({ type: "ADD", payload: 100 });
   };
   add2 = () => {
-    store.dispatch({ type: "ADD2", payload: 101 });
+    store.dispatch({ type: "ADD2", payload: 1000 });
   };
 
   asyAdd = () => {
