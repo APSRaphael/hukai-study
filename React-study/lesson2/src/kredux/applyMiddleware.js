@@ -1,6 +1,6 @@
 export default function applyMiddleware(...middlewares) {
-  return (createSore) => (reducer) => {
-    const store = createSore(reducer);
+  return (createStore) => (reducer) => {
+    const store = createStore(reducer);
     let { getState, dispatch } = store;
     // to super dispatch
 
