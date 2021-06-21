@@ -4,6 +4,7 @@ import { promise, iterator } from './is';
 
 function runTakeEffect(env, { channel = env.channel, pattern }, cb) {
 	const matcher = (input) => input.type === pattern;
+
 	channel.take(cb, matcher);
 }
 
@@ -34,10 +35,11 @@ function runForkEffect(env, { fn, args }, cb) {
 	proc(env, taskInterator);
 	cb();
 }
+
 function runAllEffect(env, effects, cb) {
 	const len = effects.length;
 	for (let i = 0; i < len; i++) {
-		proc(env, effects[i]);
+		proc(env, effects[i], cb);
 	}
 }
 

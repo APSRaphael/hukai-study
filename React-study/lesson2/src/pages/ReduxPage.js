@@ -23,10 +23,8 @@ class ReduxPage extends Component {
     // 	store.dispatch({ type: 'ADD' });
     // }, 1000);
     store.dispatch((dispatch, getState) => {
-      console.log("getState(0) :>> ", getState());
       setTimeout(() => {
         dispatch({ type: "ADD", payload: 100 });
-        console.log("getState(1) :>> ", getState());
       }, 1000);
     });
   };

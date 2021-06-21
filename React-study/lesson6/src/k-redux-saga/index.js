@@ -12,8 +12,7 @@ export default function createSagaMiddleware() {
 			return result;
 		};
 	}
-	sagaMiddleware.run = (...args) => {
-        return boundRunSage(...args)
-    };
+	sagaMiddleware.run = (...args) => boundRunSage(...args);
+
 	return sagaMiddleware;
 }

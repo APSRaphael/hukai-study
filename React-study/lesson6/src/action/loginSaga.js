@@ -25,7 +25,6 @@ function* loginSaga() {
 		const action = yield take(LOGIN_SAGA);
 		yield call(loginHandle, action);
 		// yield fork(loginHandle, action);
-		console.log('actio11111n :>> ', 111111);
 	}
 }
 

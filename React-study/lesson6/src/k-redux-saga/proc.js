@@ -33,9 +33,9 @@ export default function proc(env, iterator, cb) {
 		}
 		if (!result.done) {
 			digestEffect(result.value, next);
-		}else {
-			if(typeof cb === 'function'){
-				cb(result.value)
+		} else {
+			if (typeof cb === 'function') {
+				cb(result.value);
 			}
 		}
 		// result {value:value, done: false/true}

@@ -14,7 +14,6 @@ export default function applyMiddleware(...middlewares) {
       middleware(midApi)
     );
     dispatch = compose(...middlewaresChain)(dispatch);
-
     return { ...store, dispatch };
   };
 }

@@ -17,6 +17,6 @@ export function fork(fn, ...args) {
 	return makeEffect(effectTypes.FORK, { fn, args });
 }
 
-export function all(effects){
-	return makeEffect(effectTypes.ALL, effects)
+export function all(effects) {
+	return makeEffect(effectTypes.ALL, effects);
 }

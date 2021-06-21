@@ -15,4 +15,4 @@ const effectTypes = {
 	GET_CONTEXT: 'GET_CONTEXT',
 	SET_CONTEXT: 'SET_CONTEXT',
 };
-export default effectTypes
+export default effectTypes;
