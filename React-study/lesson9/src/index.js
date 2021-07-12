@@ -72,7 +72,7 @@ const jsx = (
 		<h1>全栈</h1>
 		<a href='https://wwww.kaikeba.com'>KKB</a>
 		<FunctionComponent name='function' />
-		{/* <ClassComponent name='class' /> */}
+		<ClassComponent name='class' />
 		{/* <FF /> */}
 	</div>
 );

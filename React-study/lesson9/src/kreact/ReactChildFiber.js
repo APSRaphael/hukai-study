@@ -46,9 +46,10 @@ function placeChild(
 }
 
 function mapRemainingChildren(currentFirstChild) {
+
 	const existingChildren = new Map();
 	let existingChild = currentFirstChild;
-
+console.log('currentFirstChild :>> ', currentFirstChild); // hk-log
 	while (existingChild) {
 		existingChildren.set(
 			existingChild.key || existingChild.index,
