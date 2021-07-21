@@ -53,6 +53,7 @@ VueRouter.install = function(_Vue) {
 	Vue = _Vue;
 	Vue.mixin({
 		beforeCreate() {
+			console.log(' this.$options.router:>> ', this.$options.router); // hk-log
 			if (this.$options.router) {
 				Vue.prototype.$router = this.$options.router;
 			}

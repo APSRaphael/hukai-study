@@ -64,6 +64,8 @@ function install(_Vue) {
 	Vue = _Vue;
 	Vue.mixin({
 		beforeCreate() {
+			console.log('1111 :>> ', 1111); // hk-log
+			console.log('this.$options.store :>> ', this.$options.store); // hk-log
 			if (this.$options.store) {
 				Vue.prototype.$store = this.$options.store;
 			}

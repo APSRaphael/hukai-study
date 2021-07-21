@@ -16,7 +16,6 @@ export default {
       aaa: 'jkjk',
     };
   },
-
   components: {
     HelloWorld,
   },
