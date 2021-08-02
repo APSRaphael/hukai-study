@@ -13,9 +13,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 import { foo } from './ts-test';
 
-console.log('foo :>> ', foo.setBar()); // hk-log
-console.log('foo :>> ', foo.log()); // hk-log
-
+console.log('foo :>> ', foo.setBar('dfd')); // hk-log
+// console.log('foo :>> ', foo.log()); // hk-log
 type Feature = {
   id: number;
   name: string;
