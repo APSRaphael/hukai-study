@@ -8,4 +8,3 @@ module.exports = function (source) {
 		callback(null, result);
 	}, 2000);
 };
-„

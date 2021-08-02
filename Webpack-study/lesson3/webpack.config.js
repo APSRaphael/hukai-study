@@ -12,46 +12,26 @@ module.exports = {
 		filename: '[name].js',
 	},
 	mode: 'development',
-	resolveLoader: {
-		modules: ['node_modules', './myLoaders'],
-	},
 	module: {
 		rules: [
 			{
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader'],
-			},
-			{
-				test: /\.less$/,
-				use: ['hk-style-loader', 'hk-css-loader', 'hk-less-loader'],
+				test: /\.(png|jpg|gif|webp|jpeg)$/,
+				type: 'asset', // asset(同过配置实现后两者) asset/resource(一定打包出独立文件) asset/inline(一定转换成base64)
+				parser: {
+					dataUrlCondition: {
+						maxSize: 9 * 1024,
+					},
+				},
+				generator: {
+					filename: 'images/[name][ext]',
+				},
 			},
 			// {
-			// 	test: /\.less$/,
-			// 	use: [
-			// 		minicss.loader,
-			// 		{
-			// 			loader: 'css-loader',
-			// 			options: {
-			// 				// modules: true,
-			// 				// sourceMap: true,
-			// 				// localIdentName: '[path][name]__[local]--[hash:base64:5]',
-			// 			},
-			// 		},
-			// 		'postcss-loader',
-			// 		'less-loader',
-			// 	],
-			// },
-			// {
-			// 	test: /\.js$/,
-			// 	use: [
-			// 		'hk-loaders',
-			// 		{
-			// 			loader: path.resolve(__dirname, './myLoaders/hk-loaders-async.js'),
-			// 			options: {
-			// 				name: 'hhb',
-			// 			},
-			// 		},
-			// 	],
+			// 	test: /\.(png|jpg|gif|webp|jpeg)$/,
+			// 	type: 'asset/resource', // asset asset/resource asset/inline(base64)
+			// 	generator: {
+			// 		filename: 'images/[name][ext]',
+			// 	},
 			// },
 		],
 	},

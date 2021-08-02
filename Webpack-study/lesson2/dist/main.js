@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_index_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style/index.less */ \"./src/style/index.less\");\n/* harmony import */ var _style_index_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_index_less__WEBPACK_IMPORTED_MODULE_0__);\n\n\nconsole.log('hello loader :>> '); // hk-log\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_index_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style/index.less */ \"./src/style/index.less\");\n\n// import pic from './images/logo.png';\nconsole.log('hello loader :>> '); // hk-log\n\n// const img = new Image();\n\n// img.src = pic;\n\n\n// const tag = document.getElementsByClassName('div1')\n// console.log('tag :>> ', tag); // hk-log\n// tag[0].after(img)\n// tag.before(img)\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
@@ -102,10 +102,11 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sty
 /*!******************************!*\
   !*** ./src/style/index.less ***!
   \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("\n        const tag = document.createElement('style');\n        tag.innerHTML = \"body #app {\\n  background-color: blue;\\n  width: 100px;\\n  height: 100px;\\n}\\nbody .div1 {\\n  width: 200px;\\n  height: 200px;\\n  display: flex;\\n  background-color: green;\\n  justify-content: space-around;\\n  align-items: center;\\n}\\n\";\n        document.head.appendChild(tag);\n    \n\n//# sourceURL=webpack:///./src/style/index.less?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./src/style/index.less?");
 
 /***/ })
 

@@ -6,7 +6,7 @@ import { bindActionCreators, connect } from "../kReactRedux";
 @connect(
   // mapStateToProps function
   // ({ count }, aaa) => ({count, aaa}),
-  ({count}) => ({count}),
+  ({ count }) => ({ count }),
   // mapDispatchToProps object | function
   // {
   //   add: () => ({
@@ -38,7 +38,7 @@ class ReactReduxPage extends Component {
   };
 
   render() {
-    const { count, add, minus,dispatch } = this.props;
+    const { count, add, minus, dispatch } = this.props;
     console.log("this.props :>> ", this.props);
     return (
       <div>
