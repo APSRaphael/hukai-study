@@ -1,4 +1,4 @@
-import './style/index.less';
+import '../style/index.less';
 // import pic from './images/logo.png';
 console.log('hello loader :>> '); // hk-log
 

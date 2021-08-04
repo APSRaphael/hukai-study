@@ -1,0 +1,16 @@
+{
+	"presets": [
+		// "@babel/preset-env",
+		[
+			"@babel/preset-env",
+			{
+				"targets": {
+					"edge": "17"
+				},
+				"corejs": 2, // 默认 2
+				"useBuiltIns": "usage"
+			}
+		],
+		"@babel/preset-react"
+	]
+}

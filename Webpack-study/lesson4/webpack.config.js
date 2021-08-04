@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
 	entry: {
-		main: './src/index.js',
+		index: './src/index/index.js',
 	},
 	output: {
 		path: path.resolve(__dirname, './dist'),
@@ -42,7 +42,7 @@ module.exports = {
 				],
 			},
 			{
-				test: /.(eot|woff|woff2|svg|ttf)$/,
+				test: /\.(eot|woff|woff2|svg|ttf)$/,
 				use: {
 					// loader:'url-loader',
 					loader: 'file-loader',
@@ -81,6 +81,27 @@ module.exports = {
 					'less-loader',
 				],
 			},
+			{
+				test: /\.js$/,
+				use: {
+					loader: 'babel-loader',
+					// options: {
+					// 	presets: [
+					// 		// '@babel/preset-env',
+					// 		[
+					// 			'@babel/preset-env',
+					// 			{
+					// 				targets: {
+					// 					edge: '17',
+					// 				},
+					// 				corejs: 3, // 默认 2
+					// 				useBuiltIns:'usage'
+					// 			},
+					// 		],
+					// 	],
+					// },
+				},
+			},
 			// {
 			// 	test: /\.js$/,
 			// 	use: [
@@ -97,7 +118,7 @@ module.exports = {
 	},
 	plugins: [
 		new htmlwebpackplugin({
-			template: './src/index.html',
+			template: './src/index/index.html',
 			filename: 'index.html',
 		}),
 		new minicss({

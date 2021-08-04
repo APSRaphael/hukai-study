@@ -2,13 +2,39 @@ const path = require('path');
 const minicss = require('mini-css-extract-plugin');
 const htmlwebpackplugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const glob = require('glob')
+const setMpa = () => {
+	const entry = {};
+	const htmlwebpackplugins = [];
+
+	const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'));
+	console.log('entryFiles :>> ', entryFiles); // hk-log
+	entryFiles.forEach((item) => {
+		const pageName = item.match(/src\/(.*)\/index.js$/)[1];
+		entry[pageName] = item;
+
+		htmlwebpackplugins.push(
+			new htmlwebpackplugin({
+				template: `./src/${pageName}/index.html`,
+				filename: `${pageName}.html`,
+				chunks: [pageName],
+			})
+		);
+	});
+	
+	return {
+		entry,
+		htmlwebpackplugins,
+	};
+};
+
+const { entry, htmlwebpackplugins } = setMpa();
+console.log('htmlwebpackplugins :>> ', htmlwebpackplugins); // hk-log
 
 module.exports = {
-	entry: {
-		main: './src/index.js',
-	},
+	entry,
 	output: {
-		path: path.resolve(__dirname, './dist'),
+		path: path.resolve(__dirname, './mpa'),
 		filename: '[name].js',
 	},
 	mode: 'development',
@@ -96,10 +122,11 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new htmlwebpackplugin({
-			template: './src/index.html',
-			filename: 'index.html',
-		}),
+		// new htmlwebpackplugin({
+		// 	template: './src/index.html',
+		// 	filename: 'index.html',
+		// }),
+		...htmlwebpackplugins,
 		new minicss({
 			filename: 'style/index.css',
 		}),
