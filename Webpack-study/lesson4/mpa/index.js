@@ -90,23 +90,10 @@
 /*!****************************!*\
   !*** ./src/index/index.js ***!
   \****************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports) {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_index_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style/index.less */ \"./src/style/index.less\");\n\n// import pic from './images/logo.png';\nconsole.log('hello loader :>> '); // hk-log\n\n// const img = new Image();\n\n// img.src = pic;\n\n\n// const tag = document.getElementsByClassName('div1')\n// console.log('tag :>> ', tag); // hk-log\n// tag[0].after(img)\n// tag.before(img)\n\n\n//# sourceURL=webpack:///./src/index/index.js?");
-
-/***/ }),
-
-/***/ "./src/style/index.less":
-/*!******************************!*\
-  !*** ./src/style/index.less ***!
-  \******************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack:///./src/style/index.less?");
+eval("// import '../style/index.less';\n// import '@babel/polyfill';\n// import pic from './images/logo.png';\n// console.log('hello loader :>> '); // hk-log\n\n// const img = new Image();\n\n// img.src = pic;\n\n// const tag = document.getElementsByClassName('div1')\n// console.log('tag :>> ', tag); // hk-log\n// tag[0].after(img)\n// tag.before(img)\n// import  'core-js/stable';\n// import 'regenerator-runtime/runtime';\n// import React, { Component } from 'react';\n// import ReactDom from 'react-dom';\n\n// function App() {\n// \treturn <div>hello JSX</div>;\n// }\n\n// ReactDom.render(<App />, document.getElementById('app'));\n\nconst arr = [new Promise(() => {})];\n\narr.map((item) => {\n\tconsole.log('item :>> ', item); // hk-log\n});\n\n\n//# sourceURL=webpack:///./src/index/index.js?");
 
 /***/ })
 

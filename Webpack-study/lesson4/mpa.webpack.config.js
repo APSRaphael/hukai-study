@@ -2,13 +2,15 @@ const path = require('path');
 const minicss = require('mini-css-extract-plugin');
 const htmlwebpackplugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const glob = require('glob')
+const hkPlugin = require('./myPlugins/hk-plugin');
+
+const glob = require('glob');
 const setMpa = () => {
 	const entry = {};
 	const htmlwebpackplugins = [];
 
 	const entryFiles = glob.sync(path.join(__dirname, './src/*/index.js'));
-	console.log('entryFiles :>> ', entryFiles); // hk-log
+	// console.log('entryFiles :>> ', entryFiles); // hk-log
 	entryFiles.forEach((item) => {
 		const pageName = item.match(/src\/(.*)\/index.js$/)[1];
 		entry[pageName] = item;
@@ -21,7 +23,7 @@ const setMpa = () => {
 			})
 		);
 	});
-	
+
 	return {
 		entry,
 		htmlwebpackplugins,
@@ -29,7 +31,6 @@ const setMpa = () => {
 };
 
 const { entry, htmlwebpackplugins } = setMpa();
-console.log('htmlwebpackplugins :>> ', htmlwebpackplugins); // hk-log
 
 module.exports = {
 	entry,
@@ -127,6 +128,7 @@ module.exports = {
 		// 	filename: 'index.html',
 		// }),
 		...htmlwebpackplugins,
+		new hkPlugin({ name: 'vue' }),
 		new minicss({
 			filename: 'style/index.css',
 		}),

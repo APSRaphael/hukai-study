@@ -13,14 +13,14 @@
 // tag.before(img)
 // import  'core-js/stable';
 // import 'regenerator-runtime/runtime';
-import React, { Component } from 'react';
-import ReactDom from 'react-dom';
+// import React, { Component } from 'react';
+// import ReactDom from 'react-dom';
 
-function App() {
-	return <div>hello JSX</div>;
-}
+// function App() {
+// 	return <div>hello JSX</div>;
+// }
 
-ReactDom.render(<App />, document.getElementById('app'));
+// ReactDom.render(<App />, document.getElementById('app'));
 
 const arr = [new Promise(() => {})];
 
