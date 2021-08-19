@@ -4,6 +4,7 @@ const htmlwebpackplugin = require('html-webpack-plugin');
 // const dev = NODE_DEV;
 // console.log('dev :>> ', dev); // hk-log
 
+console.log('process.env :>> ', process.env); // hk-log
 module.exports = {
 	// entry: './src/index.js',
 	entry: {
@@ -21,7 +22,7 @@ module.exports = {
 		new htmlwebpackplugin({
 			template: './src/index.html',
 			filename: 'main.html',
-			chunks: ['main','other'],
+			chunks: ['main', 'other'],
 		}),
 		new htmlwebpackplugin({
 			template: './src/index.html',

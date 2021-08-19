@@ -15,7 +15,7 @@ class HkPlugin {
 		// console.log('hello plugin :>> ', compiler); // hk-log
 		// compliation可以获取到源码
 		compiler.hooks.emit.tapAsync('hkCountFile', (compilation, cb) => {
-			// console.log('compilation :>> ', compilation.assets); // hk-log
+			console.log('compilation :>> ', compilation.assets); // hk-log
 			let content = '';
 			const fileList = Object.keys(compilation.assets);
 			console.log('compilation.assets :>> ', compilation.assets['index.js']); // hk-log
@@ -29,7 +29,7 @@ class HkPlugin {
 				},
 				size: function () {
 					return content.length;
-				},
+				}
 			};
 			// 异步需要调用一下 cb 不然会阻塞
 			cb();

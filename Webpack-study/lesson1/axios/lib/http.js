@@ -43,9 +43,9 @@ app.all('*', function (request, response, next) {
 	next();
 });
 
-app.use(bodyParser.json());
+app.use(bodyParse.json());
 app.use(
-	bodyParser.urlencoded({
+	bodyParse.urlencoded({
 		extended: false,
 	})
 );

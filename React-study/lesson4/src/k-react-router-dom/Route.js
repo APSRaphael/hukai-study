@@ -39,18 +39,18 @@ class Route extends Component {
           return (
             <RouterContext.Provider value={props}>
               {match
-                ? children
+                ? children // 匹配先判断 children
                   ? typeof children === "function"
                     ? children(props)
                     : children
-                  : component
+                  : component // 再判断 component
                   ? React.createElement(component, props)
-                  : render
+                  : render // 最后看 render
                   ? typeof render === "function"
                     ? render(props)
                     : null
                   : null
-                : typeof children === "function"
+                : typeof children === "function"  //不匹配直接判断 children
                 ? children(props)
                 : null}
             </RouterContext.Provider>

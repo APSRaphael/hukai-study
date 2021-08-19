@@ -43,7 +43,7 @@ function App() {
             path="/"
             // children={() => <div>children</div>}
             render={() => <div>render</div>}
-            component={HomePage}
+            component={HomePage} // 上面都可以写成匿名函数的方式，component不应该这样用，会导致组件重复挂载卸载
           >
             {/* 这个也是 children ，优先级高*/}
             {/* children */}

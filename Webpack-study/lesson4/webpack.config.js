@@ -2,9 +2,13 @@ const path = require('path');
 const minicss = require('mini-css-extract-plugin');
 const htmlwebpackplugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const hkPlugin = require('./myPlugins/hk-plugin')
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
-module.exports = {
+const hkPlugin = require('./myPlugins/hk-plugin');
+
+const swp = new SpeedMeasurePlugin();
+
+module.exports = swp.wrap({
 	entry: {
 		index: './src/index/index.js',
 	},
@@ -122,10 +126,10 @@ module.exports = {
 			template: './src/index/index.html',
 			filename: 'index.html',
 		}),
-		new hkPlugin({name:'vue'}),
+		new hkPlugin({ name: 'vue' }),
 		new minicss({
 			filename: 'style/index.css',
 		}),
 		new CleanWebpackPlugin(), // 打包前清理 dist 目录
 	],
-};
+});
