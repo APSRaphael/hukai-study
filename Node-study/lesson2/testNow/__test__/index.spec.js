@@ -1,8 +1,10 @@
 const fs = require('fs');
+const { exit } = require('process');
+
 test('集成测试， 测试生成测试代码文件', () => {
-	fs.rmdirSync(__dirname + '/data/__test__', {
-		recursive: true,
-	});
+	// fs.rmdirSync(__dirname + '/data/__test__', {
+	// 	recursive: true,
+	// });
 
 	const src = new (require('../index'))();
 	src.genJestSource(__dirname + '/data');
