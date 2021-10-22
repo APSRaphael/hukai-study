@@ -6,7 +6,6 @@ const { createEncrypt } = require('./encrypt')
 const { transferFile } = require('./transfer')
 const scanFolder = path.resolve(__dirname, '../')
 
-// console.log('process', process.argv)
 // 读取配置参数
 // if (process.argv.length !== 3) {
 //     console.log('缺少运行参数')
@@ -16,7 +15,8 @@ const scanFolder = path.resolve(__dirname, '../')
 // 从环境变量中读取秘钥
 dotenv.config('./env');
 const key = process.env['KEY']
-console.log('秘钥为:', )
+console.log('process.env :>> ', process.env); // hk-log
+console.log('秘钥为:', key)
 const encrypt = createEncrypt(key)
 
 // 循环加密代码

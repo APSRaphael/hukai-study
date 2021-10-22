@@ -23,7 +23,7 @@ class Route extends Component {
           // not Match children => null
 
           // return match
-          //   ? children
+          //   ? children  // *if match
           //     ? typeof children === "function"
           //       ? children(props)
           //       : children
@@ -32,7 +32,7 @@ class Route extends Component {
           //     : render
           //     ? render(props)
           //     : null
-          //   : typeof children === "function"
+          //   : typeof children === "function" // *if not match 这就是 children 即时不匹配也会被渲染的原因， 前提是没有使用 switch，不然组件在 switch 中就已经被不匹配过滤了
           //   ? children(props)
           //   : null;
 
@@ -50,7 +50,7 @@ class Route extends Component {
                     ? render(props)
                     : null
                   : null
-                : typeof children === "function"  //不匹配直接判断 children
+                : typeof children === "function" //不匹配直接判断 children
                 ? children(props)
                 : null}
             </RouterContext.Provider>
