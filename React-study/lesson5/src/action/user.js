@@ -16,7 +16,7 @@ import { LOGIN_FAILURE, LOGIN_SAGA, LOGIN_SUCCESS, REQUEST } from './const';
 // 	);
 // };
 
-// export const getMoreUserInfo = (dispatch, userInfo) => {
+// export const   = (dispatch, userInfo) => {
 // 	LoginService.getMoreUserInfo(userInfo).then(
 // 		(res) => {
 // 			dispatch({ type: LOGIN_SUCCESS, payload: res });

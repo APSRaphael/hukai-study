@@ -52,10 +52,17 @@ export const connect =
       dispatchProps = bindActionCreators(mapDispatchToProps, store.dispatch);
     }
 
+    // const [state, setState] = useState(0);
+    console.log("7777 :>> ", 7777); // hk-log
     const forceUpdate = useForceUpdate();
     useLayoutEffect(() => {
+      console.log("8888 :>> ", 8888); // hk-log
+      // console.log("forceupdat :>> ", forceUpdate); // hk-log
       store.subscribe(() => {
+        console.log("99999999999 :>> ", 99999999999); // hk-log
         forceUpdate();
+        // console.log('state :>> ', state); // hk-log
+        // setState(state + 1);
       });
     }, [store]);
 
@@ -63,11 +70,28 @@ export const connect =
   };
 
 function useForceUpdate() {
+  console.log("22224444 :>> ", 22224444); // hk-log
   const [, setState] = useReducer((x) => x + 1, 0);
+  // const [state, setState] = useState(0);
 
   const update = useCallback(() => {
+    // console.log("state :>> ", state); // hk-log
     setState();
+    // setState((prev) => {
+    //   console.log("prev :>> ", prev); // hk-log
+    //   return prev + 1;
+    // });
   }, []);
+  // const update = () => {
+  //   console.log("state :>> ", state); // hk-log
+  //   setState(state +1);
+
+  //   // setState((prev) => {
+  //   //   console.log("prev :>> ", prev); // hk-log
+  //   //   return prev + 1;
+  //   // });
+  //   //     // setState();
+  // };
 
   return update;
 }
@@ -86,19 +110,12 @@ export function bindActionCreators(creators, dispatch) {
   let obj = {};
   for (const key in creators) {
     if (Object.hasOwnProperty.call(creators, key)) {
-      console.log("creators[key] :>> ", creators[key]);
       obj[key] = bindActionCreator(creators[key], dispatch);
     }
   }
 
   return obj;
 }
-
-// function bindActionCreator(creator, dispatch) {
-//   return (...args) => {
-//     console.log('..args :>> ', ...args);
-//     return dispatch(creator(...args))};
-// }
 
 function bindActionCreator(creator, dispatch) {
   return (...args) => dispatch(creator(...args));

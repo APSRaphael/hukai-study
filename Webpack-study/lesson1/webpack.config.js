@@ -3,8 +3,8 @@ const htmlwebpackplugin = require('html-webpack-plugin');
 
 // const dev = NODE_DEV;
 // console.log('dev :>> ', dev); // hk-log
-
-console.log('process.env :>> ', process.env); // hk-log
+console.log('process.argv :>> ', process.argv); // hk-log
+// console.log('process.env :>> ', process.env); // hk-log
 module.exports = {
 	// entry: './src/index.js',
 	entry: {

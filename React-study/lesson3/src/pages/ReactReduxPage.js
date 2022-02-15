@@ -6,13 +6,14 @@ import { bindActionCreators, connect } from "../kReactRedux";
 @connect(
   // mapStateToProps function
   // ({ count }, aaa) => ({count, aaa}),
-  ({count}) => ({count}),
+  ({ count }) => ({ count }),
   // mapDispatchToProps object | function
   // {
   //   add: () => ({
   //     type: "ADD",
   //   }),
   // }
+  // { add: () => ({ type: "ADD" }) },
   (dispatch) => {
     // const add = () => dispatch({ type: "ADD" });
     // const minus = () => dispatch({ type: "MINUS" });
@@ -29,6 +30,7 @@ import { bindActionCreators, connect } from "../kReactRedux";
   },
   (stateProps, dispatchProps, ownProps) => {
     // return { ...stateProps, omg: "omg" };
+    console.log('77777 :>> ', 8888); // hk-log
     return { ...stateProps, ...dispatchProps, ...ownProps, omg: "omg" };
   }
 )
@@ -36,10 +38,9 @@ class ReactReduxPage extends Component {
   add = () => {
     this.props.dispatch({ type: "ADD", payload: 100 });
   };
-
   render() {
-    const { count, add, minus,dispatch } = this.props;
-    console.log("this.props :>> ", this.props);
+    console.log('88886666 :>> ', 8888); // hk-log
+    const { count, add, minus, dispatch } = this.props;
     return (
       <div>
         <h3>ReactReduxPage</h3>

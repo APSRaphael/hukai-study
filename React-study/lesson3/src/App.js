@@ -1,6 +1,7 @@
-import './App.css';
-import ReactReduxPage from './pages/ReactReduxPage';
-import ReactReduxHookPage from './pages/ReactReduxHookPage';
+import "./App.css";
+import ReactReduxPage from "./pages/ReactReduxPage";
+import ReactReduxHookPage from "./pages/ReactReduxHookPage";
+import Father from "./pages/TestPage";
 // import HooksPage from './pages/HooksPage';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       {/* <ReactReduxPage test={1123} /> */}
       <ReactReduxHookPage />
       {/* <HooksPage /> */}
+      {/* <Father /> */}
     </div>
   );
 }

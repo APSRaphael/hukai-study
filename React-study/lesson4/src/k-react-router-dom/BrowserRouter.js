@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createBrowserHistory } from "history";
+import { createBrowserHistory, createMemoryHistory, createHashHistory } from "history";
 import Router from "./Router";
 class BrowserRouter extends Component {
   constructor(props) {

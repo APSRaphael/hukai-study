@@ -6,11 +6,12 @@ function Prompt({ message, when = true }) {
   return (
     <RouterContext.Consumer>
       {(context) => {
+        console.log('when :>> ', when); // hk-log
         if (!when) {
           return null;
         }
         let method = context.history.block;
-
+console.log('22222 :>> ', 22222); // hk-log
         return (
           <LifeCycle
             onMount={(self) => {
