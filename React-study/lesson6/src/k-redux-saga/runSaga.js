@@ -5,7 +5,10 @@ export default function runSaga(
 	...args
 ) {
 	// 这里的 saga 就是 action/loginSaga.js, 目前的 loginSaga 并不接受任何参数，所以下面的...args 不传也可
+	console.log('saga :>> ', saga); // hk-log
+	console.log('...args222 :>> ', ...args); // hk-log
 	const iterator = saga(...args);
+	console.log('iterator :>> ', iterator); // hk-log
 	const env = { channel, dispatch, getState };
 	proc(env, iterator);
 }

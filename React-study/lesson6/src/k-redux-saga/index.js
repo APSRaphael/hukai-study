@@ -12,7 +12,10 @@ export default function createSagaMiddleware() {
 			return result;
 		};
 	}
-	sagaMiddleware.run = (...args) => boundRunSage(...args);
+	sagaMiddleware.run = (...args) => {
+		console.log('...args :>> ', ...args); // hk-log
+		return boundRunSage(...args);
+	};
 
 	return sagaMiddleware;
 }

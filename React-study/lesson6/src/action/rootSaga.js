@@ -2,5 +2,5 @@
 import { all } from '../k-redux-saga/effects';
 import loginSaga from './loginSaga';
 export default function* rootSaga() {
-	yield all([loginSaga()]);
+	yield all([loginSaga()]); // 数组，接收多个 saga
 }

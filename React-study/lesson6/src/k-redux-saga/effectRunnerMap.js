@@ -2,9 +2,9 @@ import effectTypes from './effectTypes';
 import proc from './proc';
 import { promise, iterator } from './is';
 
-function runTakeEffect(env, { channel = env.channel, pattern }, cb) {
+function runTakeEffect(env, { channel = env.channel, pattern }, cb) { // 源码中支持外界直接传入 channel，没有传则使用默认
 	const matcher = (input) => input.type === pattern;
-
+console.log('runTakeEffect :>> ', runTakeEffect); // hk-log
 	channel.take(cb, matcher);
 }
 
@@ -26,6 +26,7 @@ function runCallEffect(env, { fn, args }, cb) {
 	}
 	if (iterator(result)) {
 		proc(env, result, cb);
+		return
 	}
 	cb(result);
 }
