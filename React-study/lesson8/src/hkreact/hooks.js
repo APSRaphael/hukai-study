@@ -13,7 +13,10 @@ export function renderHooks(fiber) {
 
 function updateWorkInProcessHook() {
 	let hook = null;
+	// 老节点
 	let current = currentlyRenderingFiber.alternate;
+	console.log('currentlyRenderingFiber :>> ', currentlyRenderingFiber); // hk-log
+	console.log('111,  :>> ', 111, current); // hk-log
 
 	if (current) {
 		// 更新阶段
@@ -40,8 +43,10 @@ function updateWorkInProcessHook() {
 			workInProcessHook = currentlyRenderingFiber.memoizedState = hook;
 		}
 	}
+	console.log('workInProcessHook :>> ', workInProcessHook); // hk-log
 	return hook;
 }
+
 
 export function useReducer(reducer, initialState) {
 	const hook = updateWorkInProcessHook();
@@ -51,6 +56,7 @@ export function useReducer(reducer, initialState) {
 	}
 
 	const dispatch = (action) => {
+		console.log('action :>> ', action); // hk-log
 		// memoizedState
 		hook.memoizedState = reducer
 			? reducer(hook.memoizedState, action)

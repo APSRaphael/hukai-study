@@ -6,6 +6,10 @@ let Vue;
 class VueRouter {
 	constructor(options) {
 		this.options = options;
+		// 1、通过使用  Vue
+		// new Vue({data:{current:'/'}})
+		// 2、通过使用 Vue.util.defineReactive
+		// Vue.util.defineReactive(this, 'current', '/')
 		// Vue.util.defineReactive(
 		// 	this,
 		// 	'current',
@@ -53,7 +57,7 @@ VueRouter.install = function(_Vue) {
 	Vue = _Vue;
 	Vue.mixin({
 		beforeCreate() {
-			console.log(' this.$options.router:>> ', this.$options.router); // hk-log
+			// console.log(' this.$options.router:>> ', this.$options.router); // hk-log
 			if (this.$options.router) {
 				Vue.prototype.$router = this.$options.router;
 			}

@@ -1,9 +1,9 @@
 export default {
 	render(h) {
+		// 标记当前 router-view 深度
 		this.$vnode.data.routeView = true;
 		let depth = 0;
 		let parent = this.$parent;
-
 		while (parent) {
 			const vnodeData = parent.$vnode && parent.$vnode.data;
 			if (vnodeData) {

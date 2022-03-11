@@ -9,6 +9,8 @@ export function updateFunctionComponent(wip) {
 	reconcileChildren(wip, children);
 }
 export function updateHostComponent(wip) {
+	// console.log('111, wip :>> ', 111, wip); // hk-log
+
 	if (!wip.stateNode) {
 		wip.stateNode = document.createElement(wip.type);
 		// 更新属性
@@ -16,10 +18,11 @@ export function updateHostComponent(wip) {
 	}
 
 	reconcileChildren(wip, wip.props.children);
-	console.log('wip :>> ', wip); // hk-log
+	// console.log('wip :>> ', wip); // hk-log
 }
 
 export function updateFragmentComponent(wip) {
+	console.log(444, 'wip, 444 :>> ', wip, 444); // hk-log
 	reconcileChildren(wip, wip.props.children);
 }
 
@@ -30,10 +33,8 @@ function reconcileChildren(returnFiber, children) {
 	const newChildren = Array.isArray(children) ? children : [children];
 
 	let previousNewFiber = null;
-	console.log('newChildren :>> ', newChildren); // hk-log
 	for (let i = 0; i < newChildren.length; i++) {
 		const newChild = newChildren[i];
-		console.log('newChild :>> ', newChild); // hk-log
 		const newFiber = createFiber(newChild, returnFiber);
 
 		if (i === 0) {

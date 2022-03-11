@@ -14,7 +14,6 @@ let nextUnitOfWork = null;
 export function scheduleUpdateOnFiber(fiber) {
 	wipRoot = fiber;
 	wipRoot.sibling = null;
-
 	nextUnitOfWork = wipRoot;
 }
 
@@ -23,7 +22,6 @@ export function scheduleUpdateOnFiber(fiber) {
 function performUnitOfWork(wip) {
 	// 更新自己
 	const { type } = wip;
-
 	if (isFn(type)) {
 		console.log('type :>> ', type); // hk-log
 		updateFunctionComponent(wip);
@@ -49,7 +47,9 @@ function performUnitOfWork(wip) {
 }
 
 function workLoop(IdleDeadline) {
+	// console.log('222222 :>> ', 222222); // hk-log
 	while (nextUnitOfWork && IdleDeadline.timeRemaining() > 0) {
+		// console.log('nextUnitOfWork :>> ', nextUnitOfWork); // hk-log
 		nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
 	}
 	if (!nextUnitOfWork && wipRoot) {
@@ -61,6 +61,7 @@ requestIdleCallback(workLoop);
 // 提交
 
 function commitRoot() {
+	console.log('3333 :>> ', 3333); // hk-log
 	commitWorker(wipRoot.child);
 }
 

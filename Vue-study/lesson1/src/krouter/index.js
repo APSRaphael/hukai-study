@@ -29,9 +29,40 @@ const routes = [
 		children: [
 			{
 				path: '/about/info',
+				component: () =>
+					import(/* webpackChunkName: "about" */ '../views/About.vue'),
+				children: [
+					{
+						path: '/about/info/detail',
+						component:{
+							render(h) {
+								return h('div', 'info page1');
+							},
+						},
+					},
+				],
+			},
+			{
+				path: '/about/two',
 				component: {
 					render(h) {
-						return h('div', 'info page');
+						return h('div', 'info page2');
+					},
+				},
+			},
+			{
+				path: '/about/three',
+				component: {
+					render(h) {
+						return h('div', 'info page3');
+					},
+				},
+			},
+			{
+				path: '/about/four',
+				component: {
+					render(h) {
+						return h('div', 'info page4');
 					},
 				},
 			},

@@ -57,6 +57,7 @@ function reconcileChildren(returnFiber, children) {
 		} else {
 			previousNewFiber.sibling = newFiber;
 		}
+
 		previousNewFiber = newFiber;
 	}
 }

@@ -112,6 +112,8 @@ export function reconcileChildren(returnFiber, children) {
 			shouldTrackSideEffects
 		);
 
+
+		// 不使用 index === 0, 如果第一个 fiber为空，之后 inde x===1 会导致后续的 returnFiber.child没有被赋值一个 fiber
 		if (previousNewFiber === null) {
 			returnFiber.child = newFiber;
 		} else {

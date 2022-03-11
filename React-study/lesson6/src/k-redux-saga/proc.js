@@ -3,12 +3,8 @@ import { IO } from './symbols';
 
 export default function proc(env, iterator, cb) {
 	function runEffect(effect, currCb) {
-		console.log('effect :>> ', effect); // hk-log
-		console.log('IO :>> ', IO); // hk-log
 		if (effect && effect[IO]) {
 			const effectRunner = effectRunnerMap[effect.type];
-console.log('env :>> ', env); // hk-log
-console.log('effect.payload :>> ', effect.payload); // hk-log
 			effectRunner(env, effect.payload, currCb);
 		} else {
 			currCb();
@@ -29,6 +25,7 @@ console.log('effect.payload :>> ', effect.payload); // hk-log
 	}
 
 	function next(arg, isErr) {
+		console.log('prco.next :>> ', iterator); // hk-log
 		let result;
 		if (isErr) {
 			result = iterator.throw(arg);

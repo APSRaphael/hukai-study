@@ -1,9 +1,9 @@
 // import React, {Component} from "react";
-// import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 // import { useReducer } from 'react';
-// import { useLayoutEffect , useEffect} from 'react';
-import { useReducer, useState, useEffect, useLayoutEffect } from './hkreact';
-import ReactDOM from './hkreact/react-dom';
+import { useMemo, useReducer, useState, useEffect, useLayoutEffect,Fragment } from 'react';
+// import { useReducer, useState, useEffect, useLayoutEffect } from './hkreact';
+// import ReactDOM from './hkreact/react-dom';
 // import Component from "./kreact/Component";
 import './index.css';
 
@@ -67,11 +67,44 @@ function FunctionComponent(props) {
 // 	);
 // }
 
+
+
+const Admin = () => {
+
+	const [, setRandom] = useState(0); //{1}
+  
+	function getState() {  //{2}
+  
+	  console.log("getState run"); //{3}
+  
+	  let temp = 0;
+	  for (let index = 0; index < 1000; index++) {
+		temp += index;
+	  }
+  
+	  return temp;
+	}
+
+	const memoizedValue = useMemo(getState, []) // {7}
+  
+	const computeValue = memoizedValue; //{4}
+	console.log("computeValue", computeValue)//{5}
+  
+	return (
+	  <Fragment>
+		Admin
+		<button type="ghost" onClick={() => setRandom(Math.floor(Math.random() * 10 + 1))}>setRandom</button>  {/* {6} */}
+	  </Fragment>
+	)
+  
+  }
+
 const jsx = (
 	<div className='border'>
 		<h1>全栈</h1>
 		<a href='https://www.kaikeba.com/'>kkb</a>
 		<FunctionComponent name='嘉恒' />
+		<Admin />
 		{/* <ClassComponent name="class" /> */}
 		{/* <ul>
 			<FF />
@@ -82,6 +115,8 @@ const jsx = (
 		</ul> */}
 	</div>
 );
+
+
 
 ReactDOM.render(jsx, document.getElementById('root'));
 

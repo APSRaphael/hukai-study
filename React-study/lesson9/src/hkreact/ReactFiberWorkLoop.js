@@ -103,7 +103,7 @@ function commitWorker(fiber) {
 	}
 	// 提交自己
 
-	let parentNode = getParentNode(fiber);
+	let parentNode = getParentNode(fiber)
 	// 插入
 	if (flags & Placement && stateNode) {
 		// parentNode.appendChild(stateNode);

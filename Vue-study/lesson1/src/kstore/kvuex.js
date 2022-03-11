@@ -18,7 +18,7 @@ class Store {
 			computed[key] = function() {
 				return fn(store.state);
 			};
-
+			console.log('key :>> ', key); // hk-log
 			Object.defineProperty(store.getters, key, {
 				get: () => store._vm[key],
 			});
@@ -30,6 +30,7 @@ class Store {
 			},
 			computed,
 		});
+		console.log('computed :>> ', computed); // hk-log
 		this.commit = this.commit.bind(this);
 		this.dispatch = this.dispatch.bind(this);
 	}
@@ -64,8 +65,8 @@ function install(_Vue) {
 	Vue = _Vue;
 	Vue.mixin({
 		beforeCreate() {
-			console.log('1111 :>> ', 1111); // hk-log
-			console.log('this.$options.store :>> ', this.$options.store); // hk-log
+			// console.log('1111 :>> ', 1111); // hk-log
+			// console.log('this.$options.store :>> ', this.$options.store); // hk-log
 			if (this.$options.store) {
 				Vue.prototype.$store = this.$options.store;
 			}

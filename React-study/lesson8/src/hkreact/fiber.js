@@ -10,7 +10,7 @@ export function createFiber(vnode, returnFiber) {
 		sibling: null,
 		return: returnFiber,
 		flags: Placement,
-		alternate: null,
+		alternate: null, // 老节点
 	};
 
 	return fiber;
