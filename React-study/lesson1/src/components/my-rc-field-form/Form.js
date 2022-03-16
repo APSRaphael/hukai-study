@@ -6,6 +6,7 @@ export default function Form(
 	{ form, children, onFinish, onFinishFailed },
 	ref
 ) {
+	// 函数组件可以传递 form,类组件没有 form 传递下来
 	const [formInstance] = useForm(form);
 	// 子到父传递
 	React.useImperativeHandle(ref, () => formInstance);

@@ -2,7 +2,7 @@ const path = require('path');
 const minicss = require('mini-css-extract-plugin');
 const htmlwebpackplugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const glob = require('glob')
+const glob = require('glob');
 const setMpa = () => {
 	const entry = {};
 	const htmlwebpackplugins = [];
@@ -13,15 +13,25 @@ const setMpa = () => {
 		const pageName = item.match(/src\/(.*)\/index.js$/)[1];
 		entry[pageName] = item;
 
-		htmlwebpackplugins.push(
-			new htmlwebpackplugin({
-				template: `./src/${pageName}/index.html`,
-				filename: `${pageName}.html`,
-				chunks: [pageName],
-			})
-		);
+		if (pageName === ' list') {
+			htmlwebpackplugins.push(
+				new htmlwebpackplugin({
+					template: `./src/${pageName}/index.html`,
+					filename: `${pageName}.html`,
+					chunks: [pageName, '***'],
+				})
+			);
+		} else {
+			htmlwebpackplugins.push(
+				new htmlwebpackplugin({
+					template: `./src/${pageName}/index.html`,
+					filename: `${pageName}.html`,
+					chunks: [pageName],
+				})
+			);
+		}
 	});
-	
+
 	return {
 		entry,
 		htmlwebpackplugins,

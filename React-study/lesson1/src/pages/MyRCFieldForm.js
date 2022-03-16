@@ -43,6 +43,7 @@ export default class MyRCFieldForm extends Component {
 	formRef = React.createRef();
 
 	componentDidMount() {
+		// 设置值的方法是通过子组件添加的，这里的类组件获取不到 form
 		this.formRef.current.setFieldsValue({ username: 'default' });
 	}
 

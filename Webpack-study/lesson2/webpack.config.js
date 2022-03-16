@@ -38,7 +38,7 @@ module.exports = {
 							limit: 4 * 1024,
 						},
 					},
-					// { loader: 'image-webpack-loader,' },
+					// { loader: 'image-webpack-loader,' }, //  压缩图片。有坑，安装这个 loader 必须切到 taobao 源， npm config set registry = https://registry.npm.taobao.org
 				],
 			},
 			{
@@ -54,7 +54,7 @@ module.exports = {
 				},
 			},
 			// {
-			// 	test: /\.(png|jpg|gif|webp|jpeg)$/,
+			// 	test: /\.(png|jpe?g|gif|webp)$/,
 			// 	use: {
 			// 		loader: 'file-loader',
 			// 		options: {
@@ -68,7 +68,8 @@ module.exports = {
 			{
 				test: /\.less$/,
 				use: [
-					minicss.loader,
+					// 'style-loader',  生成的 css 样式是内联的
+					minicss.loader,  // 替代 style-loader 单独生成样式文件
 					{
 						loader: 'css-loader',
 						options: {
@@ -100,9 +101,9 @@ module.exports = {
 			template: './src/index.html',
 			filename: 'index.html',
 		}),
-		new minicss({
+		new minicss({   // 自带一个 minicss.loader, 替代 style-loader， 需要在  module-rules 中配置
 			filename: 'style/index.css',
 		}),
-		new CleanWebpackPlugin(),
+		new CleanWebpackPlugin(), // 自动清理打包生成的文件，确保每次打包生成的都是新文件
 	],
 };
