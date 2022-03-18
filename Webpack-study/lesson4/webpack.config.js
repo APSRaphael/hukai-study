@@ -90,21 +90,21 @@ module.exports = swp.wrap({
 				test: /\.js$/,
 				use: {
 					loader: 'babel-loader',
-					// options: {
-					// 	presets: [
-					// 		// '@babel/preset-env',
-					// 		[
-					// 			'@babel/preset-env',
-					// 			{
-					// 				targets: {
-					// 					edge: '17',
-					// 				},
-					// 				corejs: 3, // 默认 2
-					// 				useBuiltIns:'usage'
-					// 			},
-					// 		],
-					// 	],
-					// },
+					options: {
+						presets: [
+							// '@babel/preset-env',
+							[
+								'@babel/preset-env',
+								{
+									targets: {
+										edge: '17',  // 浏览器固定版本
+									},
+									corejs: 2, // 默认 2 需要单独安装 3
+									useBuiltIns:'usage'  // entry（排除特性需要手动引入 import '@babel/polyfill'） false(不排除没使用的特性)
+								},
+							],
+						],
+					},
 				},
 			},
 			// {

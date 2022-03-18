@@ -16,7 +16,7 @@ module.exports = class webpack {
 
 	run() {
 		const moduleParserInfo = this.parser(this.entry);
-		// console.log('moduleParserInfo :>> ', moduleParserInfo); // hk-log
+		console.log('moduleParserInfo :>> ', moduleParserInfo); // hk-log
 		this.modulesInfo.push(moduleParserInfo);
 
 		for (let i = 0; i < this.modulesInfo.length; i++) {
@@ -42,7 +42,13 @@ module.exports = class webpack {
 	parser(modulePath) {
 		const content = fs.readFileSync(modulePath, 'utf-8');
 		const ast = BabelParser.parse(content, { sourceType: 'module' });
+		// console.log('ast :>> ', ast); // hk-log
 		const dependencies = {};
+		traverse(ast, {
+			ImportDeclaration(params) {
+				console.log('params :>> ', params); // hk-log
+			},
+		});
 		traverse(ast, {
 			ImportDeclaration({ node }) {
 				const newPath =
@@ -51,7 +57,7 @@ module.exports = class webpack {
 				dependencies[node.source.value] = newPath;
 			},
 		});
-		console.log('ast :>> ', ast.program.body); // hk-log
+		// console.log('ast :>> ', ast.program.body); // hk-log
 		const { code } = transformFromAst(ast, null, {
 			presets: ['@babel/preset-env'],
 		});

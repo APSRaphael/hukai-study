@@ -8,12 +8,13 @@ class HkPlugin {
 		console.log('options.name :>> ', options.name); // hk-log
 	}
 	apply(compiler) {
-		// compiler 实列化的 webpack 对象
+		// compiler 实列化的 webpack 对象， 包含配置等信息
 		// 同步钩子用 tap 注册
 		// 异步钩子用 tapAsync 注册
 		// 事件名称为任意值，建议跟插件名称保持一致，或者有语义
 		// console.log('hello plugin :>> ', compiler); // hk-log
 		// compliation可以获取到源码
+		// webpack 从开始打包到结束 会暴露给我们一系列流程的接口 
 		compiler.hooks.emit.tapAsync('hkCountFile', (compilation, cb) => {
 			console.log('compilation :>> ', compilation.assets); // hk-log
 			let content = '';
