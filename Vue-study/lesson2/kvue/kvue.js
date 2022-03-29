@@ -2,11 +2,14 @@ export default class KVue {
 	constructor(options) {
 		this.$options = options;
 		this.$data = options.data;
-
+		// 对 data 做响应式处理
 		observe(options.data);
 
+		// 代理
 		proxy(this);
 		console.log('1111 :>> ', 1111);
+
+		// 编译
 		new Compiler(options.el, this);
 	}
 }
@@ -18,12 +21,16 @@ function observe(obj) {
 	new Observe(obj);
 }
 
+// 获取数组类型的原型，主要是获取数组原型中的 7 个方法
 const originalProto = Array.prototype;
 
+// 备份原型，修改备份的数据
 const arrayProto = Object.create(originalProto);
 ['push', 'pop', 'shift', 'unshift'].forEach((method) => {
-	arrayProto[method] = function() {
+	arrayProto[method] = function () {
+		// 原始操作
 		originalProto[method].apply(this, arguments);
+		// 覆盖操作：更新通知
 		console.log(`更新了方法`, method);
 	};
 });
@@ -32,8 +39,11 @@ class Observe {
 	constructor(obj) {
 		this.obj = obj;
 		console.log('obj :>> ', obj);
+		// 判断传入 obj 类型
 		if (Array.isArray(obj)) {
+			// 覆盖原型，替换7 个变更操作
 			obj.__proto__ = arrayProto;
+			// 对数组内部元素执行响应化
 			const keys = Object.keys(obj);
 			for (let i = 0; i < keys.length; i++) {
 				observe(obj[i]);
@@ -139,7 +149,7 @@ class Compiler {
 	}
 
 	isDir(attrName) {
-		return attrName.startsWith('k-');
+		return attrName.startsWith('k-'); // 约定
 	}
 
 	text(n, exp) {
@@ -158,6 +168,8 @@ class Compiler {
 	}
 
 	update(n, exp, dir) {
+		// 1.init
+		// 2.update
 		console.log('dir :>> ', dir);
 		const fn = this[dir + 'Updater'];
 		console.log('fn :>> ', fn);

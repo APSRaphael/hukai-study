@@ -8,6 +8,7 @@
 	</head>
 	<body>
 		<div id="app"></div>
+		<div id="hk"></div>
 		<script>
 			const defineReactive = (obj, key, val) => {
 				Object.defineProperty(obj, key, {
@@ -24,16 +25,14 @@
 					},
 				});
 			};
-            
-            const obj = {};
-            defineReactive(obj, 'foo', 'foo');
 
-
+			const obj = {};
+			defineReactive(obj, 'foo', 'foo');
+			console.log('app :>> ', app); // hk-log
+			console.log('hk :>> ', hk); // hk-log
 			function update() {
 				app.innerText = obj.foo;
 			}
-
-
 
 			setInterval(() => {
 				obj.foo = new Date().toLocaleTimeString();

@@ -86,3 +86,18 @@ effect(() => {
 // state.bar.baz
 state.foo = 'adsfasdfs';
 console.log(`3333`, 3333);
+
+
+function* gen(x){
+	console.log('x :>> ', x); // hk-log
+	var y = yield x + 2;
+	console.log('y :>> ', y); // hk-log
+	var z = yield y + 2;
+	console.log('z :>> ', z); // hk-log
+	return z;
+  }
+  
+  var g = gen(1);
+  console.log(g.next()) // { value: 3, done: false }
+  console.log(g.next(6)) // { value: 2, done: true }
+  console.log(g.next(1)) // { value: 2, done: true }
