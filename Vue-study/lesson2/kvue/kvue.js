@@ -7,7 +7,7 @@ export default class KVue {
 
 		// 代理
 		proxy(this);
-		console.log('1111 :>> ', 1111);
+		console.log("1111 :>> ", 1111);
 
 		// 编译
 		new Compiler(options.el, this);
@@ -15,7 +15,7 @@ export default class KVue {
 }
 
 function observe(obj) {
-	if (typeof obj !== 'object' || obj == null) {
+	if (typeof obj !== "object" || obj == null) {
 		return obj;
 	}
 	new Observe(obj);
@@ -26,7 +26,7 @@ const originalProto = Array.prototype;
 
 // 备份原型，修改备份的数据
 const arrayProto = Object.create(originalProto);
-['push', 'pop', 'shift', 'unshift'].forEach((method) => {
+["push", "pop", "shift", "unshift"].forEach((method) => {
 	arrayProto[method] = function () {
 		// 原始操作
 		originalProto[method].apply(this, arguments);
@@ -38,7 +38,7 @@ const arrayProto = Object.create(originalProto);
 class Observe {
 	constructor(obj) {
 		this.obj = obj;
-		console.log('obj :>> ', obj);
+		console.log("obj :>> ", obj);
 		// 判断传入 obj 类型
 		if (Array.isArray(obj)) {
 			// 覆盖原型，替换7 个变更操作
@@ -62,11 +62,11 @@ function defineReactive(obj, key, val) {
 	observe(val);
 
 	const dep = new Dep();
-	console.log('777 :>> ', 777);
+	console.log("777 :>> ", 777);
 	Object.defineProperty(obj, key, {
 		get() {
-			console.log('888 :>> ', 888);
-			console.log('Dep.target :>> ', Dep.target);
+			console.log("888 :>> ", 888);
+			console.log("Dep.target :>> ", Dep.target);
 			Dep.target && dep.addDep(Dep.target);
 			return val;
 		},
@@ -83,6 +83,19 @@ function defineReactive(obj, key, val) {
 function proxy(vm) {
 	Object.keys(vm.$data).forEach((key) => {
 		Object.defineProperty(vm, key, {
+			get() {
+				return vm.$data[key];
+			},
+			set(newVal) {
+				vm.$data[key] = newVal;
+			},
+		});
+	});
+}
+
+function proxy(vm) {
+	Object.keys(vm.$data).forEach((key) => {
+		Object.definePropery(vm, key, {
 			get() {
 				return vm.$data[key];
 			},
@@ -138,41 +151,41 @@ class Compiler {
 		return node.nodeType === 3 && /\{\{(.*)\}\}/.test(node.textContent);
 	}
 	textCompiler(n) {
-		this.update(n, RegExp.$1, 'text');
+		this.update(n, RegExp.$1, "text");
 		// 不能通用，获取到的是p 标签里面的文本节点
 		// this.update(n, RegExp.$1, 'html');
 	}
 	html(n, exp) {
 		// 可以通用，获取到的都是 p 元素
 		// this.update(n, exp, 'text');
-		this.update(n, exp, 'html');
+		this.update(n, exp, "html");
 	}
 
 	isDir(attrName) {
-		return attrName.startsWith('k-'); // 约定
+		return attrName.startsWith("k-"); // 约定
 	}
 
 	text(n, exp) {
-		this.update(n, exp, 'text');
+		this.update(n, exp, "text");
 	}
 
 	model(n, exp) {
-		this.update(n, exp, 'model');
-		n.addEventListener('input', (e) => {
+		this.update(n, exp, "model");
+		n.addEventListener("input", (e) => {
 			this.$vm[exp] = e.target.value;
 		});
 	}
 
 	isEvent(attrName) {
-		return attrName.startsWith('@');
+		return attrName.startsWith("@");
 	}
 
 	update(n, exp, dir) {
 		// 1.init
 		// 2.update
-		console.log('dir :>> ', dir);
-		const fn = this[dir + 'Updater'];
-		console.log('fn :>> ', fn);
+		console.log("dir :>> ", dir);
+		const fn = this[dir + "Updater"];
+		console.log("fn :>> ", fn);
 		console.log(555555, exp);
 		fn && fn(n, this.$vm[exp]);
 		new Watcher(this.$vm, exp, (val) => {

@@ -18,6 +18,7 @@ class VueRouter {
 
 		this.current = window.location.hash.slice(1) || '/';
 		Vue.util.defineReactive(this, 'matched', []);
+
 		this.match()
 
 
@@ -45,6 +46,7 @@ class VueRouter {
 			if (route.path !== '/' && this.current.indexOf(route.path) !== -1) {
 				this.matched.push(route);
 				if (route.children) {
+					// console.log('route.children :>> ', route.children); // hk-log
 					this.match(route.children);
 				}
 				return;
@@ -57,12 +59,13 @@ VueRouter.install = function(_Vue) {
 	Vue = _Vue;
 	Vue.mixin({
 		beforeCreate() {
-			// console.log(' this.$options.router:>> ', this.$options.router); // hk-log
+			console.log(' this.$options.router:>> ', this.$options.router); // hk-log
 			if (this.$options.router) {
 				Vue.prototype.$router = this.$options.router;
 			}
 		},
 	});
+	console.log('999999 :>> ', 999999); // hk-log
 	Vue.component('router-view', View);
 	Vue.component('router-link', Link);
 };

@@ -1,68 +1,75 @@
-import Vue from 'vue';
+import Vue from "vue";
 // import VueRouter from 'vue-router'
-import VueRouter from './kvue-router';
-import Home from '../views/Home.vue';
+import VueRouter from "./kvue-router";
+import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
 	{
-		path: '/',
-		name: 'Home',
+		path: "/",
+		name: "Home",
 		component: Home,
 	},
 
 	{
-		path: '/three',
-		name: 'three',
+		path: "/three",
+		name: "three",
 		component: () =>
-			import(/* webpackChunkName: "about" */ '../views/Three.vue'),
+			import(/* webpackChunkName: "about" */ "../views/Three.vue"),
 	},
 	{
-		path: '/about',
-		name: 'About',
+		path: "/about",
+		name: "About",
 		// route level code-splitting
 		// this generates a separate chunk (about.[hash].js) for this route
 		// which is lazy-loaded when the route is visited.
 		component: () =>
-			import(/* webpackChunkName: "about" */ '../views/About.vue'),
+			import(/* webpackChunkName: "about" */ "../views/About.vue"),
 		children: [
 			{
-				path: '/about/info',
+				path: "/about/info",
 				component: () =>
-					import(/* webpackChunkName: "about" */ '../views/About.vue'),
+					import(/* webpackChunkName: "about" */ "../views/About.vue"),
 				children: [
 					{
-						path: '/about/info/detail',
-						component:{
-							render(h) {
-								return h('div', 'info page1');
+						path: "/about/info/detail",
+						component: () =>
+							import(/* webpackChunkName: "about" */ "../views/About.vue"),
+						children: [
+							{
+								path: "/about/info/detail/two",
+								component: {
+									render(h) {
+										return h("div", "info page1");
+									},
+								},
 							},
-						},
+						],
 					},
 				],
 			},
 			{
-				path: '/about/two',
+				path: "/about/two",
 				component: {
 					render(h) {
-						return h('div', 'info page2');
+						return h("div", "info page2");
 					},
 				},
 			},
 			{
-				path: '/about/three',
+				path: "/about/three",
 				component: {
 					render(h) {
-						return h('div', 'info page3');
+						return h("div", "info page3");
 					},
 				},
 			},
 			{
-				path: '/about/four',
+				path: "/about/four",
 				component: {
 					render(h) {
-						return h('div', 'info page4');
+						return h("div", "info page4");
 					},
 				},
 			},
