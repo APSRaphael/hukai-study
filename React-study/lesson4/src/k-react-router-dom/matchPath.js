@@ -24,6 +24,8 @@ function matchPath(pathname, options = {}) {
   if (typeof options === "string" || Array.isArray(options)) {
     options = { path: options };
   }
+  console.log('pathname :>> ', pathname); // hk-log
+  console.log('options :>> ', options); // hk-log
   const { path, exact = false, strict = false, sensitive = false } = options;
   const paths = [].concat(path);
 

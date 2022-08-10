@@ -7,11 +7,20 @@ class Route extends Component {
       <RouterContext.Consumer>
         {(context) => {
           const { location } = context;
-          const { path, children, component, render } = this.props;
-          // const match = path === context.location.pathname;
-          const match = path
+          const { path, children, component, computedMatch, render } =
+            this.props;
+          const match = computedMatch  // <Switch> already computed the match for us
+            ? computedMatch
+            : path
             ? matchPath(location.pathname, this.props)
             : context.match;
+
+          // const match = path === context.location.pathname;
+
+          // const match = path
+          // ? matchPath(location.pathname, this.props)
+          // : context.match;
+          console.log("match :>> ", match); // hk-log
           const props = {
             ...context,
             location,

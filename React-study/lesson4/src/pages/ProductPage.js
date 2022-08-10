@@ -71,6 +71,8 @@ import {
 class ProductPage extends Component {
   constructor(props) {
     super(props);
+    const { location, match } = props;
+    const { id } = match.params;
     this.state = { confirm: true };
   }
   render() {
@@ -86,14 +88,14 @@ class ProductPage extends Component {
           CHANGE
         </button>
         <Link to="/">go home</Link>
-        <Prompt
+        {/* <Prompt
           when={this.state.confirm}
           message={( location ) => {
             console.log("location11 :>> ", location);
             return "Are you sure ?";
           }}
-          // message="你确定要离开吗？"
-        />
+          message="你确定要离开吗？"
+        /> */}
       </div>
     );
   }
