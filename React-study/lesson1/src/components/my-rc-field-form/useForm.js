@@ -105,6 +105,6 @@ export default function useForm(form) {
 			formRef.current = formStore.getForm();
 		}
 	}
-	return [formRef.current]; 
+	return [formRef.current];
 }
 

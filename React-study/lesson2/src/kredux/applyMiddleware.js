@@ -9,6 +9,7 @@ export default function applyMiddleware(...middlewares) {
       dispatch: (action, ...args) => dispatch(action, ...args),
     };
 
+    debugger
     // 这里 middleware 就都能访问 store
     const middlewaresChain = middlewares.map((middleware) =>
       middleware(midApi)

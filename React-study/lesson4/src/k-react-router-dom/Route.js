@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import matchPath from "./matchPath";
 import RouterContext from "./RouterContext";
 class Route extends Component {
+  static contextType = RouterContext; // 仅限 class组件中使用， 通过 this.context获取参数，React 会往上找到最近的 Provider，然后使用它的值。
   render() {
     return (
       <RouterContext.Consumer>
@@ -9,7 +10,7 @@ class Route extends Component {
           const { location } = context;
           const { path, children, component, computedMatch, render } =
             this.props;
-          const match = computedMatch  // <Switch> already computed the match for us
+          const match = computedMatch // <Switch> already computed the match for us
             ? computedMatch
             : path
             ? matchPath(location.pathname, this.props)
@@ -44,7 +45,7 @@ class Route extends Component {
           //   : typeof children === "function" // *if not match 这就是 children 即时不匹配也会被渲染的原因， 前提是没有使用 switch，不然组件在 switch 中就已经被不匹配过滤了
           //   ? children(props)
           //   : null;
-
+          // 下面的RouterContext.Provider嵌套使用是为了让组件获取的是最近的Provider，然后使用它的值。
           return (
             <RouterContext.Provider value={props}>
               {match
