@@ -45,7 +45,7 @@ function runAllEffect(env, effects, cb) {
 	console.log('runAllEffect :>> ', runAllEffect); // hk-log
 	const len = effects.length;
 	for (let i = 0; i < len; i++) {
-		proc(env, effects[i], cb);
+		proc(env, effects[i]);
 	}
 }
 
