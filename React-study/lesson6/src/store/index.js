@@ -12,6 +12,7 @@ const store = createStore(
 	// applyMiddleware(thunk)
 	applyMiddleware(sagaMiddleware)
 );
+console.log('8888 :>> ', 8888); // hk-log
 // sagaMiddleware.run(loginSaga)
 sagaMiddleware.run(rootSaga);
 export default store;
