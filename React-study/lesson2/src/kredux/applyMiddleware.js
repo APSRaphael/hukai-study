@@ -9,7 +9,7 @@ export default function applyMiddleware(...middlewares) {
       dispatch: (action, ...args) => dispatch(action, ...args),
     };
 
-    debugger
+    debugger;
     // 这里 middleware 就都能访问 store
     const middlewaresChain = middlewares.map((middleware) =>
       middleware(midApi)
@@ -22,6 +22,17 @@ export default function applyMiddleware(...middlewares) {
 function compose(...funcs) {
   if (funcs.length === 0) return (arg) => arg;
 
+  if (funcs.length === 1) return funcs[0];
+
+  return funcs.reduce(
+    (a, b) =>
+      (...args) =>
+        a(b(...args))
+  );
+}
+
+function compose(...funcs) {
+  if (funcs.length === 0) return (arg) => arg;
   if (funcs.length === 1) return funcs[0];
 
   return funcs.reduce(
