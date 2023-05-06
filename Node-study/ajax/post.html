@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<!-- <form action="" enctype="application/x-www-form-urlencoded"></form> -->
+		<button>点击发送 ajax</button>
+	</body>
+	<script>
+		// document.querySelector('button').onclick = function () {
+		// 	let xhr = new XMLHttpRequest();
+
+		// 	xhr.open('post', 'http://localhost:3000/post', true);
+		// 	// xhr.overrideMimeType('text/xml')  可以重写 content-type
+		// 	xhr.onload = function () {
+		// 		console.log('xhr.responseText :>> ', xhr.responseText); // hk-log
+
+		// 		console.log(
+		// 			'xhr.getResponseHeader :>> ',
+		// 			xhr.getResponseHeader('content-type')
+		// 		); // hk-log
+		// 	};
+
+		// 	// xhr.setRequestHeader(
+		// 	// 	'countent-type',
+		// 	// 	'application/x-www-form-urlencoded'
+		// 	// );
+		// 	// let data = 'username=老王';
+
+		// 	xhr.setRequestHeader('content-type', 'application/json');
+		// 	let data = JSON.stringify({ username: '老王' });
+
+		// 	xhr.send(data);
+		// };
+		document.querySelector('button').onclick = function () {
+			let xhr = new XMLHttpRequest();
+
+			xhr.open('get', 'http://localhost:3000/getAjax', true);
+			// xhr.overrideMimeType('text/xml')  可以重写 content-type
+			xhr.onload = function () {
+				console.log('xhr.responseText :>> ', xhr.responseText); // hk-log
+
+				console.log(
+					'xhr.getResponseHeader :>> ',
+					xhr.getResponseHeader('content-type')
+				); // hk-log
+			};
+			xhr.send();
+		};
+	</script>
+</html>

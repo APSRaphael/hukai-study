@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<input type="file" class="myfile" />
+		<button>点我上传文件</button>
+	</body>
+	<script>
+		document.querySelector('button').onclick = function () {
+			let files = document.querySelector('.myfile').files;
+			console.log('files111222 :>> ', files); // hk-log
+			let form = new FormData();
+			form.append('img', files[0]);
+			form.append('username', '王五');
+			let xhr = new XMLHttpRequest();
+			xhr.open('post', '/upload', true); // 第一个参数是方式，第二个是上传api， 第三个是异步(true)/同步(false)，
+			xhr.onload = function () {
+				// console.log('xhr.responseText :>> ', xhr.responseXML); // hk-log
+				console.log('xhr.responseText :>> ', xhr.responseText); // hk-log
+			};
+			// xhr.setRequestHeader() 使用 formData 可以不用单独设置 content-type
+			xhr.send(form);
+		};
+	</script>
+</html>

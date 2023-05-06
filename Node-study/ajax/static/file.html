@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<progress value="0" max="'100"></progress><span class="percent">0%</span>
+		<input type="file" name="myfile" />
+		<button>上传</button>
+	</body>
+	<script>
+		let xhr = new XMLHttpRequest();
+		let btns = document.querySelectorAll('button');
+		let stime;
+		let sloaded;
+		btns[0].onclick = function () {
+			let file = document.querySelector('.myfile').files[0];
+			let form = new FormData();
+			form.append('myfile', file);
+			xhr.open('post', '/fileUpload', true);
+			xhr.onload = function () {
+				console.log('xhr.responseText :>> ', xhr.responseText); // hk-log
+			};
+			xhr.send(form);
+			xhr.abort();
+			xhr.upload.onloadstart = function () {
+				console.log('上传开始 :>> '); // hk-log
+				stime = new Date().getTime();
+				sloaded = 0;
+			};
+			xhr.upload.onprogress = function (evt) {
+				let endTime = new Date().getTime();
+				let dTime = (endTime - stime) / 1000;
+				let dloaded = evt.loaded - sloaded;
+				let speed = dloaded / dTime;
+				let unit = 'b/s';
+				stime = new Date().getTime();
+				sloaded = evt.loaded;
+
+				if (speed / 1024 > 1) {
+					unit = 'kb/s';
+					speed = speed / 1024;
+				}
+				console.log('上传进行中');
+				if (speed / 1024 > 1) {
+					unit = 'mb/s';
+					speed = speed / 1024;
+				}
+				console.log('上传进行中');
+				// evt.totla
+				// evt.loaded
+				let percent = ((evt.loaded / evt.total) * 100).toFixed(0);
+				document.querySelector('progress').value = percent;
+				document.querySelector('.percent').innerHTML = percent + '%';
+				console.log(percent);
+			};
+			xhr.upload.onabort = function () {
+				console.log('上传终止');
+			};
+			// xhr.upload.onerror
+			xhr.upload.onload = function () {
+				console.log('上传成功');
+			};
+			xhr.upload.onloadend = function () {
+				console.log('上传结束');
+			};
+		};
+	</script>
+</html>

@@ -17,3 +17,15 @@
 服务器购买 [vultr](https://www.vultr.com/?ref=9243752-8H)
 域名购买 [namecheap](https://www.namecheap.com/domains/)
 
+vultr.com
+980439619@qq.com
+Xdhg156258
+
+vless://32c76c7c-2be2-4fd2-9a14-9b1133089749@liu.xdhggarylau.xyz:443?encryption=none&security=tls&type=ws&host=liu.xdhggarylau.xyz&sni=liu.xdhggarylau.xyz&path=/fkxnws#default_VLESS_WS
+
+namecheap.com
+garylau
+Xdhg156258
+
+140.82.46.237
+Et6,Lj5CcGYh*y8-
