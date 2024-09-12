@@ -32,6 +32,7 @@ response = openai.Completion.create(
 print(111, response)
 output_text = response.choices[0].text.strip()
 print(222, output_text)
+print(333)
 # 解析生成的成语和解释
 idioms = []
 explanations = []

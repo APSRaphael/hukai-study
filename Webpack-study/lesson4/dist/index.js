@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// import '../style/index.less';\n// import '@babel/polyfill';\n// import pic from './images/logo.png';\n// console.log('hello loader :>> '); // hk-log\n// const img = new Image();\n// img.src = pic;\n// const tag = document.getElementsByClassName('div1')\n// console.log('tag :>> ', tag); // hk-log\n// tag[0].after(img)\n// tag.before(img)\n// import  'core-js/stable';\n// import 'regenerator-runtime/runtime';\n// import React, { Component } from 'react';\n// import ReactDom from 'react-dom';\n// function App() {\n// \treturn <div>hello JSX</div>;\n// }\n// ReactDom.render(<App />, document.getElementById('app'));\nconst arr = [new Promise(() => {})];\narr.map(item => {\n  console.log('item :>> ', item); // hk-log\n});\n\n//# sourceURL=webpack:///./src/index/index.js?");
+eval("// import '../style/index.less';\n// import '@babel/polyfill';\n// import pic from './images/logo.png';\n// console.log('hello loader :>> '); // hk-log\n\n// const img = new Image();\n\n// img.src = pic;\n\n// const tag = document.getElementsByClassName('div1')\n// console.log('tag :>> ', tag); // hk-log\n// tag[0].after(img)\n// tag.before(img)\n// import  'core-js/stable';\n// import 'regenerator-runtime/runtime';\n// import React, { Component } from 'react';\n// import ReactDom from 'react-dom';\n\n// function App() {\n// \treturn <div>hello JSX</div>;\n// }\n\n// ReactDom.render(<App />, document.getElementById('app'));\n\nconst arr = [new Promise(() => {})];\narr.map(item => {\n  console.log('item :>> ', item); // hk-log\n});\n\n//# sourceURL=webpack:///./src/index/index.js?");
 
 /***/ })
 

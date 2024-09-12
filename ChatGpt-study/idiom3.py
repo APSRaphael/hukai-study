@@ -1,3 +1,10 @@
+'''
+Author: 益智
+Date: 2023-03-28 14:57:35
+LastEditTime: 2023-05-06 15:43:25
+LastEditors: 益智
+Description:
+'''
 import openai
 import random
 import re
@@ -35,7 +42,7 @@ output_text = re.sub(r'\[.*?\]', '', output_text)  # 去除生成结果中的方
 output_text = re.sub(r'[\s\n]+', '\n', output_text)  # 将多个空格或换行符替换为一个换行符
 output_text = output_text.replace("解释：", "\n解释：")  # 将解释移动到新行
 
-print(output_text)
+print('show output_text',output_text)
 
 # 解析生成的成语和解释
 idioms = []
