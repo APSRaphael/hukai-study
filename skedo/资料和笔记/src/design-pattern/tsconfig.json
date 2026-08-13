@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "lib": ["DOM", "ESNext"],
-    "emitDecoratorMetadata": true ,
-    "experimentalDecorators": true,
-    "downlevelIteration": true 
-  }
-}
