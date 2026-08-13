@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Sequence
+from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -10,9 +12,34 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.exceptions import AppException, BusinessException, SystemException
-from app.schemas.response import ErrorResponse
+from app.schemas.response import (
+    ErrorResponse,
+    ValidationErrorDetail,
+    ValidationErrorItem,
+)
 
 logger = logging.getLogger(__name__)
+
+# Pydantic / FastAPI 常见校验类型 → 前端可读中文
+_VALIDATION_TYPE_MESSAGES: dict[str, str] = {
+    "string_too_short": "长度太短",
+    "string_too_long": "长度太长",
+    "missing": "缺少必填字段",
+    "int_parsing": "必须是整数",
+    "float_parsing": "必须是数字",
+    "bool_parsing": "必须是布尔值",
+    "json_invalid": "JSON 格式无效",
+    "extra_forbidden": "包含不允许的字段",
+    "value_error": "值不合法",
+    "type_error": "类型不正确",
+    "enum": "不在允许的取值范围内",
+    "greater_than": "数值过小",
+    "greater_than_equal": "数值过小",
+    "less_than": "数值过大",
+    "less_than_equal": "数值过大",
+}
+
+_LOC_PREFIXES = frozenset({"body", "query", "path", "header", "cookie"})
 
 
 def _json_error(
@@ -24,6 +51,41 @@ def _json_error(
 ) -> JSONResponse:
     body = ErrorResponse(code=code, message=message, detail=detail)
     return JSONResponse(status_code=status_code, content=body.model_dump())
+
+
+def _field_from_loc(loc: Sequence[Any]) -> str:
+    """从 loc 提取字段名，如 ['body', 'password'] → 'password'。"""
+    parts = [str(part) for part in loc]
+    if parts and parts[0] in _LOC_PREFIXES:
+        parts = parts[1:]
+    return ".".join(parts) if parts else ""
+
+
+def _validation_message(error: dict[str, Any]) -> str:
+    error_type = str(error.get("type") or "")
+    if error_type in _VALIDATION_TYPE_MESSAGES:
+        return _VALIDATION_TYPE_MESSAGES[error_type]
+    # 未知类型时尽量用简短中文，避免直接吐英文原文
+    return "参数不合法"
+
+
+def _build_validation_detail(
+    request: Request, exc: RequestValidationError
+) -> dict[str, Any]:
+    items = [
+        ValidationErrorItem(
+            field=_field_from_loc(error.get("loc") or ()),
+            message=_validation_message(error),
+            type=str(error.get("type") or "value_error"),
+        )
+        for error in exc.errors()
+    ]
+    detail = ValidationErrorDetail(
+        errors=items,
+        path=request.url.path,
+        method=request.method.upper(),
+    )
+    return detail.model_dump()
 
 
 def register_exception_handlers(app: FastAPI) -> None:
@@ -89,9 +151,9 @@ def register_exception_handlers(app: FastAPI) -> None:
         logger.info("参数校验失败 path=%s errors=%s", request.url.path, exc.errors())
         return _json_error(
             status_code=422,
-            code=42200,
+            code=422,
             message="请求参数校验失败",
-            detail=exc.errors(),
+            detail=_build_validation_detail(request, exc),
         )
 
     @app.exception_handler(StarletteHTTPException)
