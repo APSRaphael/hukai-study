@@ -25,7 +25,7 @@
 
 自定义异常→响应模型→日志配置→全局处理器→业务示例
 
-# 用FastAPI + SQLAlchemy 2.0 + MySQL 实现用户信息数据建模：
+# 用FastAPI + ORM框架(SQLAlchemy) + MySQL 实现用户信息数据建模：
 
 1. 定义 User 表（id 自增主键、username 添加唯一索引、password、create_time 自动填充当前时间）
 2. 配置 MySQL 连接串 {{mysql_url}};
