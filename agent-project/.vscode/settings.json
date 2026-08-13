@@ -1,0 +1,16 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/agent-backend-project/.venv/bin/python",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixOnSave.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+  "ruff.interpreter": [
+    "${workspaceFolder}/agent-backend-project/.venv/bin/python"
+  ],
+  "ruff.enable": true,
+  "ruff.nativeServer": "on"
+}
