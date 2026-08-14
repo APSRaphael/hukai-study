@@ -59,6 +59,16 @@ class Settings(BaseSettings):
         default=7, alias="JWT_REFRESH_TOKEN_EXPIRE_DAYS"
     )
 
+    # ---- CORS（逗号分隔；开发默认允许 Vite）----
+    cors_origins: str = Field(
+        default=(
+            "http://127.0.0.1:5173,http://localhost:5173,"
+            "http://127.0.0.1:5174,http://localhost:5174,"
+            "http://127.0.0.1:5175,http://localhost:5175"
+        ),
+        alias="CORS_ORIGINS",
+    )
+
     @computed_field  # type: ignore[prop-decorator]
     @property
     def is_development(self) -> bool:
@@ -98,6 +108,11 @@ class Settings(BaseSettings):
         if self.is_production:
             raise RuntimeError("生产环境必须设置环境变量 JWT_SECRET_KEY")
         return "dev-only-insecure-jwt-secret-change-me"
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        """解析 CORS_ORIGINS 为列表；空字符串表示不放行任何来源。"""
+        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
 
 
 @lru_cache
