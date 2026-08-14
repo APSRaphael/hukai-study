@@ -49,6 +49,16 @@ class Settings(BaseSettings):
     mysql_database: str = Field(default="agent_backend", alias="MYSQL_DATABASE")
     mysql_charset: str = Field(default="utf8mb4", alias="MYSQL_CHARSET")
 
+    # ---- JWT（密钥必须来自环境变量 / .env，禁止写死进仓库）----
+    jwt_secret_key: str = Field(default="", alias="JWT_SECRET_KEY")
+    jwt_algorithm: str = Field(default="HS256", alias="JWT_ALGORITHM")
+    jwt_access_token_expire_minutes: int = Field(
+        default=15, alias="JWT_ACCESS_TOKEN_EXPIRE_MINUTES"
+    )
+    jwt_refresh_token_expire_days: int = Field(
+        default=7, alias="JWT_REFRESH_TOKEN_EXPIRE_DAYS"
+    )
+
     @computed_field  # type: ignore[prop-decorator]
     @property
     def is_development(self) -> bool:
@@ -79,6 +89,15 @@ class Settings(BaseSettings):
         if not path.is_absolute():
             path = _BASE_DIR / path
         return path
+
+    @property
+    def resolved_jwt_secret(self) -> str:
+        """生产必须配置 JWT_SECRET_KEY；开发未配置时用占位密钥便于本地启动。"""
+        if self.jwt_secret_key:
+            return self.jwt_secret_key
+        if self.is_production:
+            raise RuntimeError("生产环境必须设置环境变量 JWT_SECRET_KEY")
+        return "dev-only-insecure-jwt-secret-change-me"
 
 
 @lru_cache

@@ -36,7 +36,10 @@ class FixedWindowRateLimiter:
                 raise BusinessException(
                     "请求过于频繁，请稍后再试",
                     code=CODE_RATE_LIMITED,
-                    detail=f"rate limited key={key} limit={self.limit}/{self.window_seconds}s",
+                    detail=(
+                        f"rate limited key={key} "
+                        f"limit={self.limit}/{self.window_seconds}s"
+                    ),
                     status_code=429,
                 )
             self._counts[bucket] = count + 1

@@ -1,4 +1,4 @@
-"""认证相关路由：注册等。"""
+"""认证相关路由：注册、登录、刷新令牌。"""
 
 from __future__ import annotations
 
@@ -9,7 +9,9 @@ from sqlalchemy.orm import Session
 
 from app.core.rate_limit import rate_limit_dependency, register_rate_limiter
 from app.db.session import get_db
+from app.schemas.auth import LoginRequest, RefreshRequest, TokenResponse
 from app.schemas.user import UserCreate, UserOut
+from app.services import auth as auth_service
 from app.services import user as user_service
 
 router = APIRouter(prefix="/auth", tags=["认证"])
@@ -33,3 +35,17 @@ def register(
 ):
     """用户注册：限流后复用创建用户（含弱密码校验与 bcrypt）。"""
     return user_service.create_user(db, payload)
+
+
+@router.post("/login", response_model=TokenResponse)
+def login(payload: LoginRequest, db: DbSession):
+    """登录：校验密码后签发 access + refresh token。"""
+    return auth_service.login(
+        db, username=payload.username, password=payload.password
+    )
+
+
+@router.post("/refresh", response_model=TokenResponse)
+def refresh(payload: RefreshRequest, db: DbSession):
+    """用 refresh token 换取新的 access / refresh（供客户端自动续期）。"""
+    return auth_service.refresh_tokens(db, refresh_token=payload.refresh_token)
