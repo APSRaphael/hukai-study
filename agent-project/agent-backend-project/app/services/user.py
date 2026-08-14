@@ -4,18 +4,21 @@ from __future__ import annotations
 
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import CODE_USER_NOT_FOUND, CODE_USERNAME_EXISTS
 from app.core.exceptions import BusinessException
+from app.core.password_policy import validate_password_strength
 from app.core.security import hash_password
 from app.db import user as user_db
 from app.schemas.user import UserCreate, UserOut, UserUpdate
 
 
 def create_user(db: Session, payload: UserCreate) -> UserOut:
-    """创建用户：用户名唯一，密码只存哈希。"""
+    """创建用户：弱密码校验 + 用户名唯一，密码只存哈希。"""
+    validate_password_strength(payload.username, payload.password)
     if user_db.get_user_by_username(db, payload.username):
         raise BusinessException(
             "用户名已存在",
-            code=40001,
+            code=CODE_USERNAME_EXISTS,
             detail=f"username={payload.username} 已存在",
             status_code=400,
         )
@@ -40,7 +43,7 @@ def get_user(db: Session, user_id: int) -> UserOut:
     if user is None:
         raise BusinessException(
             "用户不存在",
-            code=40401,
+            code=CODE_USER_NOT_FOUND,
             detail=f"user_id={user_id} 不存在",
             status_code=404,
         )
@@ -52,7 +55,7 @@ def update_user(db: Session, user_id: int, payload: UserUpdate) -> UserOut:
     if user_db.get_user(db, user_id) is None:
         raise BusinessException(
             "用户不存在",
-            code=40401,
+            code=CODE_USER_NOT_FOUND,
             detail=f"user_id={user_id} 不存在",
             status_code=404,
         )
@@ -63,7 +66,7 @@ def update_user(db: Session, user_id: int, payload: UserUpdate) -> UserOut:
         if existing and existing.id != user_id:
             raise BusinessException(
                 "用户名已存在",
-                code=40001,
+                code=CODE_USERNAME_EXISTS,
                 detail=(
                     f"username={payload.username} "
                     f"已被 user_id={existing.id} 占用"
@@ -71,9 +74,15 @@ def update_user(db: Session, user_id: int, payload: UserUpdate) -> UserOut:
                 status_code=400,
             )
 
-    password_hash = (
-        hash_password(payload.password) if payload.password is not None else None
-    )
+    password_hash = None
+    if payload.password is not None:
+        current = user_db.get_user(db, user_id)
+        assert current is not None
+        final_username = (
+            payload.username if payload.username is not None else current.username
+        )
+        validate_password_strength(final_username, payload.password)
+        password_hash = hash_password(payload.password)
     user = user_db.update_user(
         db,
         user_id,
@@ -89,7 +98,7 @@ def delete_user(db: Session, user_id: int) -> None:
     if not user_db.delete_user(db, user_id):
         raise BusinessException(
             "用户不存在",
-            code=40401,
+            code=CODE_USER_NOT_FOUND,
             detail=f"user_id={user_id} 不存在",
             status_code=404,
         )

@@ -66,7 +66,7 @@ async def test_user_crud_smoke(client):
 
     missing = await client.get(f"/users/{user_id}")
     assert missing.status_code == 404
-    assert missing.json()["code"] == 40401
+    assert missing.json()["code"] == 404
 
 
 async def test_create_user_validation_error(client):
@@ -91,5 +91,15 @@ async def test_create_duplicate_username(client):
     resp = await client.post("/users", json=payload)
     assert resp.status_code == 400
     body = resp.json()
-    assert body["code"] == 40001
+    assert body["code"] == 400
     assert body["message"] == "用户名已存在"
+
+
+async def test_create_user_rejects_weak_password(client):
+    """/users 创建同样复用弱密码策略。"""
+    resp = await client.post(
+        "/users",
+        json={"username": "weak_user", "password": "123456"},
+    )
+    assert resp.status_code == 400
+    assert resp.json()["code"] == 400

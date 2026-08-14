@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse
 from loguru import logger
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from app.core.error_codes import CODE_INTERNAL, CODE_VALIDATION
 from app.core.exceptions import AppException, BusinessException, SystemException
 from app.schemas.response import (
     ErrorResponse,
@@ -148,7 +149,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         logger.info("参数校验失败 path={} errors={}", request.url.path, exc.errors())
         return _json_error(
             status_code=422,
-            code=422,
+            code=CODE_VALIDATION,
             message="请求参数校验失败",
             detail=_build_validation_detail(request, exc),
         )
@@ -167,7 +168,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         )
         return _json_error(
             status_code=exc.status_code,
-            code=exc.status_code * 100,
+            code=exc.status_code,
             message=message,
             detail=exc.detail,
         )
@@ -180,7 +181,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         logger.opt(exception=True).error("未处理异常 path={}", request.url.path)
         return _json_error(
             status_code=500,
-            code=50000,
+            code=CODE_INTERNAL,
             message="系统内部错误",
             detail=f"{type(exc).__name__}: {exc}",
         )

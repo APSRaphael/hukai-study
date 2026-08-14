@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from app.core.error_codes import CODE_BAD_REQUEST, CODE_INTERNAL
+
 
 class AppException(Exception):
     """应用异常基类。"""
@@ -28,7 +30,7 @@ class BusinessException(AppException):
         self,
         message: str,
         *,
-        code: int = 40000,
+        code: int = CODE_BAD_REQUEST,
         detail: str | None = None,
         status_code: int = 400,
     ) -> None:
@@ -44,7 +46,7 @@ class SystemException(AppException):
         self,
         message: str = "系统内部错误",
         *,
-        code: int = 50000,
+        code: int = CODE_INTERNAL,
         detail: str | None = None,
         status_code: int = 500,
     ) -> None:
