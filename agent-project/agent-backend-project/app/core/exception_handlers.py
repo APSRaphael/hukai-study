@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import logging
 from collections.abc import Sequence
 from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from loguru import logger
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.exceptions import AppException, BusinessException, SystemException
@@ -17,8 +17,6 @@ from app.schemas.response import (
     ValidationErrorDetail,
     ValidationErrorItem,
 )
-
-logger = logging.getLogger(__name__)
 
 # Pydantic / FastAPI 常见校验类型 → 前端可读中文
 _VALIDATION_TYPE_MESSAGES: dict[str, str] = {
@@ -97,7 +95,7 @@ def register_exception_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         # 业务错误：前端可读，detail 便于后端定位
         logger.warning(
-            "业务异常 path=%s code=%s detail=%s",
+            "业务异常 path={} code={} detail={}",
             request.url.path,
             exc.code,
             exc.detail,
@@ -113,12 +111,11 @@ def register_exception_handlers(app: FastAPI) -> None:
     async def system_exception_handler(
         request: Request, exc: SystemException
     ) -> JSONResponse:
-        logger.error(
-            "系统异常 path=%s code=%s detail=%s",
+        logger.opt(exception=True).error(
+            "系统异常 path={} code={} detail={}",
             request.url.path,
             exc.code,
             exc.detail,
-            exc_info=True,
         )
         return _json_error(
             status_code=exc.status_code,
@@ -132,7 +129,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         request: Request, exc: AppException
     ) -> JSONResponse:
         logger.warning(
-            "应用异常 path=%s code=%s detail=%s",
+            "应用异常 path={} code={} detail={}",
             request.url.path,
             exc.code,
             exc.detail,
@@ -148,7 +145,7 @@ def register_exception_handlers(app: FastAPI) -> None:
     async def validation_exception_handler(
         request: Request, exc: RequestValidationError
     ) -> JSONResponse:
-        logger.info("参数校验失败 path=%s errors=%s", request.url.path, exc.errors())
+        logger.info("参数校验失败 path={} errors={}", request.url.path, exc.errors())
         return _json_error(
             status_code=422,
             code=422,
@@ -163,7 +160,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         # 兼容未改造的 HTTPException
         message = exc.detail if isinstance(exc.detail, str) else "请求失败"
         logger.warning(
-            "HTTP异常 path=%s status=%s detail=%s",
+            "HTTP异常 path={} status={} detail={}",
             request.url.path,
             exc.status_code,
             exc.detail,
@@ -180,7 +177,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         request: Request, exc: Exception
     ) -> JSONResponse:
         # 未捕获异常：前端给通用文案，detail 写异常类型便于定位
-        logger.exception("未处理异常 path=%s", request.url.path)
+        logger.opt(exception=True).error("未处理异常 path={}", request.url.path)
         return _json_error(
             status_code=500,
             code=50000,

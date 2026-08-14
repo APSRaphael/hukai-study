@@ -1,82 +1,116 @@
-"""日志体系：控制台便于开发，文件用于留痕与排障。"""
+"""日志体系：基于 loguru，控制台便于开发，文件用于留痕与排障。"""
 
 from __future__ import annotations
 
 import logging
 import sys
-from logging.handlers import RotatingFileHandler
+
+from loguru import logger
 
 from app.core.config import Settings, get_settings
 
-# 业务关注的 logger；第三方默认收敛，避免刷屏
+# 第三方默认收敛，避免刷屏
 _NOISY_LOGGERS = (
+    "uvicorn",
     "uvicorn.access",
+    "uvicorn.error",
     "sqlalchemy.engine",
     "sqlalchemy.pool",
     "alembic",
 )
 
+_LOG_FORMAT = (
+    "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "
+    "<level>{level: <8}</level> | "
+    "<cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | "
+    "<level>{message}</level>"
+)
+
+_FILE_FORMAT = (
+    "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} | {message}"
+)
+
+
+class InterceptHandler(logging.Handler):
+    """把标准库 logging 转发到 loguru，兼容 uvicorn / sqlalchemy。"""
+
+    def emit(self, record: logging.LogRecord) -> None:
+        try:
+            level: str | int = logger.level(record.levelname).name
+        except ValueError:
+            level = record.levelno
+
+        frame, depth = logging.currentframe(), 2
+        while frame and frame.f_code.co_filename == logging.__file__:
+            frame = frame.f_back
+            depth += 1
+
+        logger.opt(depth=depth, exception=record.exc_info).log(
+            level, record.getMessage()
+        )
+
 
 def setup_logging(settings: Settings | None = None) -> None:
-    """按环境初始化日志（可重复调用以刷新配置）。"""
+    """按环境初始化 loguru（可重复调用以刷新配置）。"""
     settings = settings or get_settings()
-    level = _parse_level(settings.log_level)
+    level = (settings.log_level or "INFO").upper()
+    console_level = "INFO" if settings.is_development else "WARNING"
 
-    root = logging.getLogger()
-    root.handlers.clear()
-    root.setLevel(level)
-
-    formatter = logging.Formatter(
-        fmt="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-
-    # 控制台：开发看 INFO+，生产只看 WARNING+，减少噪音
-    console = logging.StreamHandler(sys.stdout)
-    console.setFormatter(formatter)
-    console.setLevel(logging.INFO if settings.is_development else logging.WARNING)
-    root.addHandler(console)
-
-    # 文件：全量业务日志留痕
     log_dir = settings.resolved_log_dir
     log_dir.mkdir(parents=True, exist_ok=True)
 
-    app_file = RotatingFileHandler(
+    logger.remove()
+
+    # 控制台：开发 INFO+，生产 WARNING+
+    logger.add(
+        sys.stdout,
+        level=console_level,
+        format=_LOG_FORMAT,
+        colorize=settings.is_development,
+        enqueue=True,
+        backtrace=settings.is_development,
+        diagnose=False,
+    )
+
+    # 全量业务日志
+    logger.add(
         log_dir / "app.log",
-        maxBytes=settings.log_max_bytes,
-        backupCount=settings.log_backup_count,
+        level=level,
+        format=_FILE_FORMAT,
+        rotation=settings.log_max_bytes,
+        retention=settings.log_backup_count,
         encoding="utf-8",
+        enqueue=True,
+        backtrace=True,
+        diagnose=False,
     )
-    app_file.setFormatter(formatter)
-    app_file.setLevel(level)
-    root.addHandler(app_file)
 
-    # 错误单独落盘，方便排障
-    error_file = RotatingFileHandler(
+    # 错误单独落盘
+    logger.add(
         log_dir / "error.log",
-        maxBytes=settings.log_max_bytes,
-        backupCount=settings.log_backup_count,
+        level="ERROR",
+        format=_FILE_FORMAT,
+        rotation=settings.log_max_bytes,
+        retention=settings.log_backup_count,
         encoding="utf-8",
+        enqueue=True,
+        backtrace=True,
+        diagnose=False,
     )
-    error_file.setFormatter(formatter)
-    error_file.setLevel(logging.ERROR)
-    root.addHandler(error_file)
 
-    # 收敛第三方日志
+    # 标准库 → loguru
+    logging.root.handlers.clear()
+    logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
+
     noisy_level = logging.INFO if settings.is_development else logging.WARNING
     for name in _NOISY_LOGGERS:
+        logging.getLogger(name).handlers.clear()
+        logging.getLogger(name).propagate = True
         logging.getLogger(name).setLevel(noisy_level)
 
-    logging.getLogger(__name__).debug(
-        "logging ready env=%s level=%s dir=%s",
+    logger.debug(
+        "logging ready env={} level={} dir={}",
         settings.app_env,
-        logging.getLevelName(level),
+        level,
         log_dir,
     )
-
-
-def _parse_level(value: str) -> int:
-    level = getattr(logging, value.upper(), None)
-    if isinstance(level, int):
-        return level
-    return logging.INFO
