@@ -6,11 +6,19 @@ export type AuthTokens = {
   refreshToken: string
 }
 
+export type UserInfo = {
+  id: number
+  username: string
+  avatar: string | null
+}
+
 type AuthState = {
   accessToken: string | null
   refreshToken: string | null
+  user: UserInfo | null
   setTokens: (tokens: AuthTokens) => void
-  clearTokens: () => void
+  setUser: (user: UserInfo | null) => void
+  clearAuth: () => void
   isAuthenticated: () => boolean
 }
 
@@ -19,8 +27,10 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       accessToken: null,
       refreshToken: null,
+      user: null,
       setTokens: ({ accessToken, refreshToken }) => set({ accessToken, refreshToken }),
-      clearTokens: () => set({ accessToken: null, refreshToken: null }),
+      setUser: (user) => set({ user }),
+      clearAuth: () => set({ accessToken: null, refreshToken: null, user: null }),
       isAuthenticated: () => Boolean(get().accessToken),
     }),
     { name: 'agent-auth', storage: createJSONStorage(() => localStorage) },

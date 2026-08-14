@@ -62,7 +62,7 @@ apiClient.interceptors.response.use(
     // 401：尝试 refresh 后重试；公开鉴权接口或已重试则清 token 并跳登录
     if (status === 401 && config && !isAuthPublicPath(config.url)) {
       if (config._retry || !useAuthStore.getState().refreshToken) {
-        useAuthStore.getState().clearTokens()
+        useAuthStore.getState().clearAuth()
         if (!silent) toastError(getErrorMessage(error, '登录已失效，请重新登录'))
         redirectToLogin()
         return Promise.reject(error)
@@ -75,7 +75,7 @@ apiClient.interceptors.response.use(
         })
         const accessToken = await refreshPromise
         if (!accessToken) {
-          useAuthStore.getState().clearTokens()
+          useAuthStore.getState().clearAuth()
           if (!silent) toastError('登录已失效，请重新登录')
           redirectToLogin()
           return Promise.reject(error)
@@ -83,7 +83,7 @@ apiClient.interceptors.response.use(
         config.headers.Authorization = `Bearer ${accessToken}`
         return apiClient.request(config)
       } catch (refreshError) {
-        useAuthStore.getState().clearTokens()
+        useAuthStore.getState().clearAuth()
         if (!silent) {
           toastError(getErrorMessage(refreshError, '登录已失效，请重新登录'))
         }
