@@ -13,3 +13,6 @@ __pycache__/
 # 日志
 logs/
 *.log
+
+# 本地上传文件
+uploads/

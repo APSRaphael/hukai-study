@@ -2,11 +2,12 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.core.config import get_settings
 from app.core.exception_handlers import register_exception_handlers
 from app.core.logging import setup_logging
-from app.routers import auth, health, user
+from app.routers import auth, health, upload, user
 
 settings = get_settings()
 setup_logging(settings)
@@ -31,9 +32,18 @@ if settings.cors_origin_list:
 
 register_exception_handlers(app)
 
+# 确保上传目录存在后再挂载静态访问
+settings.resolved_upload_dir.mkdir(parents=True, exist_ok=True)
+app.mount(
+    "/uploads",
+    StaticFiles(directory=str(settings.resolved_upload_dir)),
+    name="uploads",
+)
+
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(user.router)
+app.include_router(upload.router)
 
 
 @app.get("/")

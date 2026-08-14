@@ -39,6 +39,7 @@ def update_user(
     *,
     username: str | None = None,
     password_hash: str | None = None,
+    avatar: str | None = None,
 ) -> User | None:
     """更新用户；不存在返回 None。"""
     user = db.get(User, user_id)
@@ -48,6 +49,8 @@ def update_user(
         user.username = username
     if password_hash is not None:
         user.password = password_hash
+    if avatar is not None:
+        user.avatar = avatar
     db.commit()
     db.refresh(user)
     return user

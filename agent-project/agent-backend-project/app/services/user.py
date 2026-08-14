@@ -9,7 +9,12 @@ from app.core.exceptions import BusinessException
 from app.core.password_policy import validate_password_strength
 from app.core.security import hash_password
 from app.db import user as user_db
+from app.models.user import User
 from app.schemas.user import UserCreate, UserOut, UserUpdate
+
+
+def to_user_out(user: User) -> UserOut:
+    return UserOut(id=user.id, username=user.username, avatar=user.avatar)
 
 
 def create_user(db: Session, payload: UserCreate) -> UserOut:
@@ -27,14 +32,12 @@ def create_user(db: Session, payload: UserCreate) -> UserOut:
         username=payload.username,
         password_hash=hash_password(payload.password),
     )
-    return UserOut(id=user.id, username=user.username)
+    return to_user_out(user)
 
 
 def list_users(db: Session) -> list[UserOut]:
     """查询全部用户。"""
-    return [
-        UserOut(id=u.id, username=u.username) for u in user_db.list_users(db)
-    ]
+    return [to_user_out(u) for u in user_db.list_users(db)]
 
 
 def get_user(db: Session, user_id: int) -> UserOut:
@@ -47,7 +50,7 @@ def get_user(db: Session, user_id: int) -> UserOut:
             detail=f"user_id={user_id} 不存在",
             status_code=404,
         )
-    return UserOut(id=user.id, username=user.username)
+    return to_user_out(user)
 
 
 def update_user(db: Session, user_id: int, payload: UserUpdate) -> UserOut:
@@ -90,7 +93,7 @@ def update_user(db: Session, user_id: int, payload: UserUpdate) -> UserOut:
         password_hash=password_hash,
     )
     assert user is not None
-    return UserOut(id=user.id, username=user.username)
+    return to_user_out(user)
 
 
 def delete_user(db: Session, user_id: int) -> None:

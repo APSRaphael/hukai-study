@@ -26,6 +26,11 @@ class User(Base):
         nullable=False,
         comment="密码哈希",
     )
+    avatar: Mapped[str | None] = mapped_column(
+        String(512),
+        nullable=True,
+        comment="头像访问路径",
+    )
     create_time: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,

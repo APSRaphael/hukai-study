@@ -30,3 +30,4 @@ class UserOut(BaseModel):
 
     id: int
     username: str
+    avatar: str | None = None

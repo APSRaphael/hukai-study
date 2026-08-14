@@ -7,6 +7,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
+from app.core.deps import CurrentUser
 from app.core.rate_limit import rate_limit_dependency, register_rate_limiter
 from app.db.session import get_db
 from app.schemas.auth import LoginRequest, RefreshRequest, TokenResponse
@@ -49,3 +50,9 @@ def login(payload: LoginRequest, db: DbSession):
 def refresh(payload: RefreshRequest, db: DbSession):
     """用 refresh token 换取新的 access / refresh（供客户端自动续期）。"""
     return auth_service.refresh_tokens(db, refresh_token=payload.refresh_token)
+
+
+@router.get("/me", response_model=UserOut)
+def me(current_user: CurrentUser):
+    """当前登录用户信息。"""
+    return user_service.to_user_out(current_user)

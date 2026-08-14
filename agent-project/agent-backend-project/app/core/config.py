@@ -69,6 +69,9 @@ class Settings(BaseSettings):
         alias="CORS_ORIGINS",
     )
 
+    # ---- 上传目录（相对项目根或绝对路径）----
+    upload_dir: str = Field(default="uploads", alias="UPLOAD_DIR")
+
     @computed_field  # type: ignore[prop-decorator]
     @property
     def is_development(self) -> bool:
@@ -96,6 +99,13 @@ class Settings(BaseSettings):
     @property
     def resolved_log_dir(self) -> Path:
         path = Path(self.log_dir)
+        if not path.is_absolute():
+            path = _BASE_DIR / path
+        return path
+
+    @property
+    def resolved_upload_dir(self) -> Path:
+        path = Path(self.upload_dir)
         if not path.is_absolute():
             path = _BASE_DIR / path
         return path
